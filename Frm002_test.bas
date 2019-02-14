@@ -215,6 +215,8 @@ Private Function Testcase(tc As Integer)
             'Reset spørgeskema workbook
             Global_Test_Func.resetSheets ThisWorkbook
             
+            recHis ("frm001")
+            
             'Execute/Click button
             frm002.Tilbage_Click
             

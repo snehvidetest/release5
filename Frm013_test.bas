@@ -4,7 +4,7 @@ Private formID As Integer
 Private formName As String
 Private parameters As Scripting.Dictionary
 Private parametersAndCols As Scripting.Dictionary
-Private spmCells As Scripting.Dictionary
+'Private spmCells As Scripting.Dictionary
 Private popCells As Scripting.Dictionary
 Private rulCells As Scripting.Dictionary
 Private groCells As Scripting.Dictionary
@@ -86,6 +86,7 @@ Private Function Testcase(tc As Integer)
             result = NextStep(parameters("expected"))
             
         Case "backButton"
+            recHis ("frm012")
             frm013.Tilbage_Click
             result = NextStep(parameters("expected"))
             
@@ -123,7 +124,7 @@ End Function
 
 Private Function SetFields()
     
-    ThisWorkbook.Sheets("SpmSvar").Range("D24:H24").Value = "" 'Prevents crashing when frm010 initialises frm014
+    'ThisWorkbook.Sheets("SpmSvar").Range("D24:H24").Value = "" 'Prevents crashing when frm010 initialises frm014
     
     'The folowing code inserts the inputs into the actual form
     frm013.OptionButton1.Value = parameters("optionButton1")
@@ -136,8 +137,8 @@ Private Function CheckFrmFields(sheet As String)
     
     'Check results
     If (sheet = "SpmSvar") Then
-        result = ThisWorkbook.Sheets(sheet).Range("D23").Text
-        
+        'result = ThisWorkbook.Sheets(sheet).Range("D23").Text
+        result = findPreviousAns(findTopSpm("A"), "9.b.2.2", 1, 1)
     ElseIf (sheet = "Population") Then
         Select Case parameters("testParameter")
             Case "trustRIM"
@@ -190,9 +191,10 @@ Private Function DataIsSaved(sheet As String, cell As String)
         Case "optionButton1"
             
             If parameters("optionButton1") = "True" Then
-                ThisWorkbook.Sheets(sheet).Range(cell).Value = parameters("antalDage")
+                'ThisWorkbook.Sheets(sheet).Range(cell).Value = parameters("antalDage")
+                Call writeSpmSvar("9.b.2.2", "", parameters("antalDage"), "", 6)
             ElseIf parameters("optionButton1") = "False" Then
-                ThisWorkbook.Sheets(sheet).Range(cell).Value = ""
+                'ThisWorkbook.Sheets(sheet).Range(cell).Value = ""
             End If
             
             ShowFunc (formName)
@@ -201,9 +203,10 @@ Private Function DataIsSaved(sheet As String, cell As String)
         Case "antalDage"
             
             If parameters("optionButton1") = "True" Then
-                ThisWorkbook.Sheets(sheet).Range(cell).Value = parameters("antalDage")
+                'ThisWorkbook.Sheets(sheet).Range(cell).Value = parameters("antalDage")
             ElseIf parameters("optionButton1") = "False" Then
-                ThisWorkbook.Sheets(sheet).Range(cell).Value = ""
+                'ThisWorkbook.Sheets(sheet).Range(cell).Value = ""
+                Call writeSpmSvar("9.b.2.2", "", parameters("antalDage"), "", 6)
             End If
             
             ShowFunc (formName)
@@ -211,9 +214,10 @@ Private Function DataIsSaved(sheet As String, cell As String)
             
         Case "optionButton2"
             If parameters("optionButton2") = "True" Then
-                ThisWorkbook.Sheets(sheet).Range(cell).Value = "Ved ikke"
+                'ThisWorkbook.Sheets(sheet).Range(cell).Value = "Ved ikke"
+                Call writeSpmSvar("9.b.2.2", "", "Ved ikke", "", 6)
             ElseIf parameters("optionButton2") = "False" Then
-                ThisWorkbook.Sheets(sheet).Range(cell).Value = ""
+                'ThisWorkbook.Sheets(sheet).Range(cell).Value = ""
             End If
             
             ShowFunc (formName)
@@ -232,7 +236,6 @@ Private Function CheckNoExtraPrints()
             rulCells.Add "G43:G47", "NEJ"
             rulCells.Add "J43:J47", ""
             
-            
         Case "config1"
             popCells.Add "B16", "JA"
             popCells.Add "B17", "NEJ"
@@ -240,10 +243,12 @@ Private Function CheckNoExtraPrints()
             rulCells.Add "G43:G47", "JA"
             rulCells.Add "J43:J47", parameters("antalDage")
             
+            Call addSpm("9.b.2.2", parameters("antalDage"))
         Case "config2"
             
             rulCells.Add "G43:G47", "JA"
             rulCells.Add "J43:J47", ""
+            Call addSpm("9.b.2.2", "Ved ikke")
             
     End Select
     'returns a string which shows either true or has the input of the cells that changed that shouldn't have been changed

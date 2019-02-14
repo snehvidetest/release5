@@ -1,12 +1,12 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frm034 
    Caption         =   "Frasortering"
-   ClientHeight    =   6276
-   ClientLeft      =   96
-   ClientTop       =   360
-   ClientWidth     =   9060.001
+   ClientHeight    =   5544
+   ClientLeft      =   36
+   ClientTop       =   192
+   ClientWidth     =   8784.001
    OleObjectBlob   =   "frm034.frx":0000
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   2  'CenterScreen
 End
 Attribute VB_Name = "frm034"
 Attribute VB_GlobalNameSpace = False
@@ -15,6 +15,10 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
 
+
+Private Sub Image1_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
+
+End Sub
 
 Private Sub Image2_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
 
@@ -153,14 +157,17 @@ Public Sub OKButton_Click()
     
     ' Hvis fordringshaver svarer, at "sidste rettidige betalingsdato" kan ligge før "forfaldsdatoen"
     ' skal der komme en advarsel om, at dette ikke er "normalt".
+    
+    
+    Me.Hide
+    'store current form#
+    recHis ("frm034")
+    
     If ComboBox2.Value = "før" Or ComboBox4.Value = "før" Then
         SFunc.ShowFunc ("frm044")
         GoTo ending
     End If
     
-    Me.Hide
-    'store current form#
-    recHis ("frm034")
     SFunc.ShowFunc ("frm035")
        
 ending:
@@ -236,7 +243,7 @@ Private Sub DrawChart()
     Fname = ThisWorkbook.Path & "\temp1.gif"
     With Me.Image2
         .Picture = LoadPicture(Fname)
-        .PictureSizeMode = fmPictureSizeModeZoom
+        .PictureSizeMode = fmPictureSizeModeClip
     End With
 
     Call DeleteFile
@@ -276,7 +283,7 @@ Private Sub ComboBox4_Change()
 End Sub
 Private Sub UserForm_Initialize()
 
-    Image1.PictureSizeMode = fmPictureSizeModeStretch
+    Image1.PictureSizeMode = fmPictureSizeModeClip
 
     a = "SRB"
     b = "Forfaldsdato"
@@ -334,5 +341,6 @@ Private Sub UserForm_Initialize()
         Worksheets("Grafik_frm034").Range("C4") = TextBox2.Value
         Worksheets("Grafik_frm034").Range("B4") = TextBox2.Value & " " & "dage" & " " & ComboBox4.Value
     End If
+Call drawProgressBar(Me, Me.Name)
 End Sub
 

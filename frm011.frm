@@ -1,12 +1,12 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frm011 
    Caption         =   "Forældelseskontrol"
-   ClientHeight    =   6048
-   ClientLeft      =   84
-   ClientTop       =   360
-   ClientWidth     =   9024.001
+   ClientHeight    =   6936
+   ClientLeft      =   36
+   ClientTop       =   168
+   ClientWidth     =   10980
    OleObjectBlob   =   "frm011.frx":0000
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   2  'CenterScreen
 End
 Attribute VB_Name = "frm011"
 Attribute VB_GlobalNameSpace = False
@@ -84,7 +84,7 @@ End Sub
 
 Private Sub UserForm_Initialize()
 
-Image1.PictureSizeMode = fmPictureSizeModeStretch
+Image1.PictureSizeMode = fmPictureSizeModeClip
 
 ' Indlæs tidligere svar 9b
 If findPreviousAns(findTopSpm("F"), "9.b", 1) = "Ja" Then
@@ -97,5 +97,5 @@ Else
 End If
 
 
-
+Call drawProgressBar(Me, Me.Name)
 End Sub

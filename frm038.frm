@@ -1,12 +1,12 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frm038 
    Caption         =   "Frasortering"
-   ClientHeight    =   6276
-   ClientLeft      =   84
-   ClientTop       =   360
-   ClientWidth     =   9060.001
+   ClientHeight    =   6936
+   ClientLeft      =   60
+   ClientTop       =   168
+   ClientWidth     =   10980
    OleObjectBlob   =   "frm038.frx":0000
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   2  'CenterScreen
 End
 Attribute VB_Name = "frm038"
 Attribute VB_GlobalNameSpace = False
@@ -26,6 +26,10 @@ Private Sub ComboBox4_Change()
 End Sub
 
 
+
+Private Sub Image1_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
+
+End Sub
 
 Public Sub OKButton_Click()
            
@@ -235,7 +239,7 @@ Private Sub DrawChart()
     Fname = ThisWorkbook.Path & "\temp1.gif"
     With Me.Image2
         .Picture = LoadPicture(Fname)
-        .PictureSizeMode = fmPictureSizeModeZoom
+        .PictureSizeMode = fmPictureSizeModeClip
     End With
     Call DeleteFile
     
@@ -273,7 +277,7 @@ End Sub
 
 Private Sub UserForm_Initialize()
 
-    Image1.PictureSizeMode = fmPictureSizeModeStretch
+    Image1.PictureSizeMode = fmPictureSizeModeClip
     ' Activate sheet
     Worksheets("SpmSvar").Activate
     ActiveWindow.Zoom = 80
@@ -315,6 +319,6 @@ Private Sub UserForm_Initialize()
         TextBox2.Value = Split(findPreviousAns(findTopSpm("F"), "11.b_1", 2))(1)
         ComboBox4.Value = Split(findPreviousAns(findTopSpm("F"), "11.b_1", 2))(3)
     End If
-
+Call drawProgressBar(Me, Me.Name)
 End Sub
 

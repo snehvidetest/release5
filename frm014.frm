@@ -1,12 +1,12 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frm014 
    Caption         =   "Forældelseskontrol"
-   ClientHeight    =   6972
-   ClientLeft      =   96
-   ClientTop       =   360
-   ClientWidth     =   9264.001
+   ClientHeight    =   6936
+   ClientLeft      =   36
+   ClientTop       =   192
+   ClientWidth     =   10980
    OleObjectBlob   =   "frm014.frx":0000
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   2  'CenterScreen
 End
 Attribute VB_Name = "frm014"
 Attribute VB_GlobalNameSpace = False
@@ -34,6 +34,10 @@ ElseIf CheckBox2.Value = False Then
     PeriodeSlutdato.Enabled = True
     Stiftelsesdato.Enabled = True
 End If
+End Sub
+
+Private Sub Image1_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
+
 End Sub
 
 Public Sub OKButton_Click()
@@ -80,7 +84,7 @@ If PeriodeStartdato.Value = True Then
     Worksheets("Regler").Range("G58:G58").Value = "JA"
     Worksheets("Regler").Range("G59:G59").Value = "JA"
     Worksheets("Regler").Range("G70:G70").Value = "JA"
-    Call writeSpmSvar("10_4", "Periode start", "Kan anvendes")
+    Call writeSpmSvar("10_4", "Periodestartdato", "Kan anvendes")
 ElseIf PeriodeStartdato.Value = False Then
     Worksheets("Regler").Range("G56:G56").Value = "NEJ"
     Worksheets("Regler").Range("G57:G57").Value = "NEJ"
@@ -95,7 +99,7 @@ If PeriodeSlutdato.Value = True Then
     Worksheets("Regler").Range("G62:G62").Value = "JA"
     Worksheets("Regler").Range("G63:G63").Value = "JA"
     Worksheets("Regler").Range("G71:G71").Value = "JA"
-    Call writeSpmSvar("10_5", "Periode slut", "Kan anvendes")
+    Call writeSpmSvar("10_5", "Periodeslutdato", "Kan anvendes")
 ElseIf PeriodeSlutdato.Value = False Then
     Worksheets("Regler").Range("G60:G60").Value = "NEJ"
     Worksheets("Regler").Range("G61:G61").Value = "NEJ"
@@ -196,7 +200,6 @@ ElseIf CheckBox2.Value = True And frm007.OptionButton1.Value = True Then
     'store current form#
     recHis ("frm014")
     SFunc.ShowFunc ("frm039")
-
 End If
 
 If CheckBox2.Value = True Then
@@ -217,7 +220,7 @@ End Sub
 
 Private Sub UserForm_Initialize()
     
-Image1.PictureSizeMode = fmPictureSizeModeStretch
+Image1.PictureSizeMode = fmPictureSizeModeClip
 
 If findPreviousAns(findTopSpm("F"), "10_1", 1) <> "" Then
     Forfaldsdato.Value = True
@@ -264,7 +267,7 @@ End If
 '            CheckBox2.Value = True
 '        End If
 '    End If
-
+Call drawProgressBar(Me, Me.Name)
 End Sub
 
 'Private Sub UserForm_Initialize()

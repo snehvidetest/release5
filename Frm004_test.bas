@@ -176,6 +176,7 @@ Private Function Testcase(tc As Integer)
             'frm004.Show 'Check it is correct
             
             'Execute/Click button
+            recHis ("frm003")
             frm004.Tilbage_Click
             
             'Check if the expected form opened

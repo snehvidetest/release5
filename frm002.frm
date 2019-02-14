@@ -1,12 +1,12 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frm002 
    Caption         =   "Populationsafgrænsning"
-   ClientHeight    =   4836
-   ClientLeft      =   60
-   ClientTop       =   276
-   ClientWidth     =   7212
+   ClientHeight    =   5544
+   ClientLeft      =   108
+   ClientTop       =   420
+   ClientWidth     =   8784.001
    OleObjectBlob   =   "frm002.frx":0000
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   2  'CenterScreen
 End
 Attribute VB_Name = "frm002"
 Attribute VB_GlobalNameSpace = False
@@ -29,6 +29,11 @@ Else
 End If
 
 End Sub
+
+Private Sub Image1_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
+
+End Sub
+
 
 Public Sub OKButton_Click()
 'validering
@@ -229,6 +234,10 @@ End If
 ending:
 End Sub
 
+Private Sub spg3_Click()
+
+End Sub
+
 Public Sub Tilbage_Click()
 
 Me.Hide
@@ -274,7 +283,7 @@ End Sub
 Public Sub UserForm_Initialize()
 'Fill JA/NEJ ComboBox
 'Controls("Label1").Caption = Worksheets("SpmSvar").Range("B2:B2").Value
-Image1.PictureSizeMode = fmPictureSizeModeStretch
+Image1.PictureSizeMode = fmPictureSizeModeClip
 ' Reset all values ?
 Worksheets("Population").Range("B2:B18").Value = ""
 
@@ -788,5 +797,8 @@ If findPreviousAns(findTopSpm("F"), "4", 1) = "Ja" Then
 ElseIf findPreviousAns(findTopSpm("F"), "4", 1) = "Nej" Then
     korrektData.Value = True
 End If
+
+
+Call drawProgressBar(Me, Me.Name)
 
 End Sub

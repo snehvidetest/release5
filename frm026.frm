@@ -1,12 +1,12 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frm026 
    Caption         =   "Populationsafgrænsning"
-   ClientHeight    =   6048
-   ClientLeft      =   84
-   ClientTop       =   372
-   ClientWidth     =   9024.001
+   ClientHeight    =   5544
+   ClientLeft      =   12
+   ClientTop       =   84
+   ClientWidth     =   8784.001
    OleObjectBlob   =   "frm026.frx":0000
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   2  'CenterScreen
 End
 Attribute VB_Name = "frm026"
 Attribute VB_GlobalNameSpace = False
@@ -414,7 +414,15 @@ Call goBack
 'frm003.Show
 End Sub
 
+Private Sub txtSRBslut_Change()
+
+End Sub
+
 Private Sub txtSRBstart_Change()
+
+End Sub
+
+Private Sub txtSTIslut_Change()
 
 End Sub
 
@@ -426,7 +434,7 @@ End Sub
 
 Private Sub UserForm_Initialize()
 
-Image1.PictureSizeMode = fmPictureSizeModeStretch
+Image1.PictureSizeMode = fmPictureSizeModeClip
 
 If findPreviousAns(findTopSpm("F"), "4.a.2.1_1", 1) <> "" Then
     Call Forfaldsdato_Click
@@ -463,4 +471,5 @@ If findPreviousAns(findTopSpm("F"), "4.a.2.1_5", 1) <> "" Then
     txtPSLslut = findPreviousAns(findTopSpm("F"), "4.a.2.1_5", 2)
 End If
 
+Call drawProgressBar(Me, Me.Name)
 End Sub

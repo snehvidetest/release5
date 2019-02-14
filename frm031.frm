@@ -1,12 +1,12 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frm031 
    Caption         =   "Forældelseskontrol"
-   ClientHeight    =   7728
-   ClientLeft      =   108
-   ClientTop       =   372
-   ClientWidth     =   10692
+   ClientHeight    =   8940.001
+   ClientLeft      =   36
+   ClientTop       =   204
+   ClientWidth     =   12984
    OleObjectBlob   =   "frm031.frx":0000
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   2  'CenterScreen
 End
 Attribute VB_Name = "frm031"
 Attribute VB_GlobalNameSpace = False
@@ -86,7 +86,7 @@ dFunc.msgError = "Vælg venligst én af svar mulighederne for at gå videre."
 End If
 
 ' Validering - Negative værdier
-If TextBox1.Value < 0 Then
+If TextBox1.Value < 0 Or TextBox2.Value < 0 Then
     dFunc.msgError = "Der kan ikke indtastes negative værdier i antal dage"
     SFunc.ShowFunc ("frmMsg")
     GoTo ending
@@ -183,7 +183,9 @@ Else
     Call writeSpmSvar("10.a_5", Controls("Label3").caption, Controls("OptionButton2").caption)
 End If
 
+
 If TextBox1.Value <> "" Then
+    'Worksheets("SpmSvar").Range("D72:D72").Value = CInt(TextBox1.Value)
     If OptionButton1.Value = True Then
         Call writeSpmSvar("10.a.1_5", Controls("Label1").caption, CInt(TextBox1.Value))
     ElseIf OptionButton2.Value = True Then
@@ -191,11 +193,17 @@ If TextBox1.Value <> "" Then
     End If
 End If
 If TextBox2.Value <> "" Then
-    Call writeSpmSvar("10.a.2.1_5", Controls("Label4").caption, CInt(TextBox2.Value))
+    'Worksheets("SpmSvar").Range("D73:D73").Value = CInt(TextBox2.Value)
+    If OptionButton1.Value = True Then
+        Call writeSpmSvar("10.a.1.1_5", Controls("Label4").caption, CInt(TextBox2.Value))
+    ElseIf OptionButton2.Value = True Then
+        Call writeSpmSvar("10.a.2.1_5", Controls("Label4").caption, CInt(TextBox2.Value))
+    End If
 End If
 
 ' "Ved ikke" skrives ned i arket
 If CheckBox1.Value = True Then
+    'Worksheets("SpmSvar").Range("D72:D72").Value = "Ved ikke"
     If OptionButton1.Value = True Then
         Call writeSpmSvar("10.a.1_5", Controls("Label1").caption, "Ved ikke")
     ElseIf OptionButton2.Value = True Then
@@ -204,7 +212,12 @@ If CheckBox1.Value = True Then
 End If
 
 If CheckBox2.Value = True Then
-    Call writeSpmSvar("10.a.2.1_5", Controls("Label4").caption, "Ved ikke")
+    'Worksheets("SpmSvar").Range("D73:D73").Value = "Ved ikke"
+    If OptionButton1.Value = True Then
+        Call writeSpmSvar("10.a.1.1_5", Controls("Label4").caption, "Ved ikke")
+    ElseIf OptionButton2.Value = True Then
+        Call writeSpmSvar("10.a.2.1_5", Controls("Label4").caption, "Ved ikke")
+    End If
 End If
 
 
@@ -261,6 +274,10 @@ If OptionButton1.Value = True Then
     TextBox1.Visible = True
     TextBox2.Visible = True
 End If
+If CheckBox3.Value = True Then
+    TextBox2.Enabled = False
+    CheckBox2.Enabled = False
+End If
 End Sub
 
 Private Sub OptionButton2_Click()
@@ -279,6 +296,10 @@ If OptionButton2.Value = True Then
     TextBox1.Visible = True
     TextBox2.Visible = True
 End If
+If CheckBox3.Value = True Then
+    TextBox2.Enabled = False
+    CheckBox2.Enabled = False
+End If
 End Sub
 
 
@@ -296,7 +317,7 @@ End Sub
 
 Private Sub UserForm_Initialize()
 
-Image1.PictureSizeMode = fmPictureSizeModeStretch
+Image1.PictureSizeMode = fmPictureSizeModeClip
 
 
 If findPreviousAns(findTopSpm("F"), "10.a_5", 1) = "Samme dag eller senere end det valgte stamdatafelt" Then
@@ -310,10 +331,19 @@ If OptionButton1.Value Then
     Else
         TextBox1.Value = findPreviousAns(findTopSpm("F"), "10.a.1_5", 1)
     End If
-    If findPreviousAns(findTopSpm("F"), "10.a.2.1_5", 1) = "Ved ikke" Then
+    If findPreviousAns(findTopSpm("F"), "10.a.1_5", 1) = "Ved ikke" Then
+        CheckBox1.Value = True
+    Else
+        TextBox1.Value = findPreviousAns(findTopSpm("F"), "10.a.1_5", 1)
+    End If
+    If findPreviousAns(findTopSpm("F"), "10.a.1.1_5", 1) = "Ved ikke" Then
         CheckBox2.Value = True
     Else
         TextBox2.Value = findPreviousAns(findTopSpm("F"), "10.a.1.1_5", 1)
+        If findPreviousAns(findTopSpm("F"), "10.a.1.1_5", 1) = "1095" Then
+            CheckBox3.Value = True
+            TextBox1.Enabled = False
+        End If
     End If
     
 ElseIf OptionButton2.Value Then
@@ -326,6 +356,10 @@ ElseIf OptionButton2.Value Then
         CheckBox2.Value = True
     Else
         TextBox2.Value = findPreviousAns(findTopSpm("F"), "10.a.2.1_5", 1)
+        If findPreviousAns(findTopSpm("F"), "10.a.2.1_5", 1) = "1095" Then
+            CheckBox3.Value = True
+            TextBox2.Enabled = False
+        End If
     End If
 End If
 
@@ -360,4 +394,5 @@ Else
 End If
 
     Label12.Font.size = 15
+Call drawProgressBar(Me, Me.Name)
 End Sub

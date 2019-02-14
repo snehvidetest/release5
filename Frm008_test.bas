@@ -4,7 +4,7 @@ Private formID As Integer
 Private formName As String
 Private parameters As Scripting.Dictionary
 Private parametersAndCols As Scripting.Dictionary
-Private spmCells As Scripting.Dictionary
+'Private spmCells As Scripting.Dictionary
 Private popCells As Scripting.Dictionary
 Private rulCells As Scripting.Dictionary
 Private groCells As Scripting.Dictionary
@@ -76,8 +76,8 @@ Private Function Testcase(tc As Integer)
         Case "printsToSpmSheet"
             SetFields
             frm008.OKButton_Click 'Click on Videre button
-            CheckFields "SpmSvar"
-            
+            'CheckFields "SpmSvar"
+            result = findPreviousAns(findTopSpm("A"), "9.a", 1, 1)
         Case "errorMessage"
             SetFields
             frm008.OKButton_Click 'Click on Videre button
@@ -89,6 +89,7 @@ Private Function Testcase(tc As Integer)
             result = Global_Test_Func.NextStep(parameters("expected"))
             
         Case "backButton"
+            recHis ("frm007")
             frm008.Tilbage_Click
             result = Global_Test_Func.NextStep(parameters("expected"))
             
@@ -161,9 +162,9 @@ Private Function DataIsSaved(sheet As String, cell As String)
         Case "optionButton1"
             
             If parameters("optionButton1") = "True" Then
-                ThisWorkbook.Sheets(sheet).Range(cell).Value = "Ja"
+                Call writeSpmSvar("9.a", "", "Ja", "", 6) 'ThisWorkbook.Sheets(sheet).Range(cell).Value = "Ja"
             ElseIf parameters("optionButton1") = "False" Then
-                ThisWorkbook.Sheets(sheet).Range(cell).Value = ""
+                'ThisWorkbook.Sheets(sheet).Range(cell).Value = ""
             End If
             
             ShowFunc (formName)
@@ -171,9 +172,9 @@ Private Function DataIsSaved(sheet As String, cell As String)
             
         Case "optionButton2"
             If parameters("optionButton2") = "True" Then
-                ThisWorkbook.Sheets(sheet).Range(cell).Value = "Nej"
+                Call writeSpmSvar("9.a", "", "Nej", "", 6) 'ThisWorkbook.Sheets(sheet).Range(cell).Value = "Nej"
             ElseIf parameters("optionButton2") = "False" Then
-                ThisWorkbook.Sheets(sheet).Range(cell).Value = ""
+                'ThisWorkbook.Sheets(sheet).Range(cell).Value = ""
             End If
             
             ShowFunc (formName)
@@ -194,13 +195,17 @@ Private Function CheckNoExtraPrints()
             
             groCells.Add "C2", "NEJ"
             groCells.Add "C3", "NEJ"
+            
         Case "config1"
             popCells.Add "B16", "JA"
             popCells.Add "B17", "NEJ"
             
             groCells.Add "C2", "NEJ"
             groCells.Add "C3", "JA"
+            
+            Call addSpm("9.a", "Ja")
         Case "config2"
+            Call addSpm("9.a", "Nej")
     End Select
     
     'returns a string which shows either true or has the input of the cells that changed that shouldn't have been changed

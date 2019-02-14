@@ -25,7 +25,7 @@ Sub RunTests()
     Dim nrTC As Integer, i As Integer
     nrTC = Application.WorksheetFunction.CountIf(testWS.Range("A:A"), formID)
     
-    For i = 14 To 22 '1 To nrTC
+    For i = 1 To nrTC
         Set parameters = New Scripting.Dictionary
         Testcase i
     Next i
@@ -92,6 +92,7 @@ Private Function Testcase(tc As Integer)
             result = Global_Test_Func.NextStep(parameters("expected"))
             
         Case "backButton"
+            recHis ("frm002")
             frm003.Tilbage_Click
             result = Global_Test_Func.NextStep(parameters("expected"))
             
@@ -153,7 +154,7 @@ Private Function DataIsSaved(sheet As String, cell As String)
         Select Case parameters("testParameter")
            Case "optionButton1"
                'ThisWorkbook.Sheets(sheet).Range(cell).Value = "At der enten foretages en tilpasning af den allerede afgrænsede modtagelsesperiode"
-               Call writeSpmSvar("4.a", "", "At der enten foretages en tilpasning af den allerede afgrænsede modtagelsesperiode", "", 6)
+               Call writeSpmSvar("4.a", "", "At der foretages en tilpasning af den allerede afgrænsede modtagelsesperiode, eller", "", 6)
                ShowFunc (formName)
                result = CStr(frm003.OptionButton1.Value)
            Case "optionButton2"

@@ -1,12 +1,12 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frm022 
    Caption         =   "Indledende spørgsmål"
-   ClientHeight    =   8592.001
-   ClientLeft      =   84
-   ClientTop       =   360
-   ClientWidth     =   9024.001
+   ClientHeight    =   10932
+   ClientLeft      =   60
+   ClientTop       =   264
+   ClientWidth     =   10980
    OleObjectBlob   =   "frm022.frx":0000
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   2  'CenterScreen
 End
 Attribute VB_Name = "frm022"
 Attribute VB_GlobalNameSpace = False
@@ -86,10 +86,6 @@ Private Sub CheckBox1_Click()
 End Sub
 
 
-
-
-
-
 Private Sub CheckBox3_Click()
 If CheckBox3.Value = True Then
     CheckBox1.Enabled = False
@@ -144,6 +140,10 @@ Private Sub Forfaldsdato_Click()
         CheckBox4.Enabled = False
         CheckBox4.Value = False
     End If
+End Sub
+
+Private Sub Image1_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
+
 End Sub
 
 Public Sub OKButton_Click()
@@ -828,11 +828,21 @@ Call goBack
 'frm021.Show
 End Sub
 
+Private Sub txtFFSlut_Change()
+
+End Sub
+
 Private Sub txtFFStart_Change()
 
 End Sub
 
+Private Sub txtPSLstart_Change()
+
+End Sub
+
 Private Sub UserForm_Initialize()
+
+Image1.PictureSizeMode = fmPictureSizeModeClip
 
 Dim valgMd As Boolean
 Dim valgAr As Boolean
@@ -840,7 +850,6 @@ Dim valgAr As Boolean
 valgMd = False
 valgAr = False
 
-Image1.PictureSizeMode = fmPictureSizeModeStretch
 
 ' Indlæs tidligere svar 13
 ' Samme dag i måneden
@@ -1066,5 +1075,5 @@ End If
 '    CheckBox2.Value = True
 'End If
 
-
+Call drawProgressBar(Me, Me.Name)
 End Sub

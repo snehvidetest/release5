@@ -161,7 +161,7 @@ Function errorMessage() As String
     If IsLoaded("frmMsg") Then
         errorMessage = frmMsg.lblMsg.caption
     Else
-        errorMessage = "Messege did not pop up"
+        errorMessage = "Message did not pop up"
     End If
 End Function
 
@@ -246,6 +246,7 @@ End Function
 
 
 Function addSpm(s1 As String, ans As String, Optional ans2 As String) ', Optional s2 As Integer, Optional s3 As Integer, Optional s4 As Integer, Optional s5 As Integer)
+' This function looks through the Spm_Lookup sheet and finds the expected caption.
 Dim lookupRow As Integer
 Dim spmRow As Integer
 Dim myString As String

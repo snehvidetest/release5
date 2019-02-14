@@ -1,12 +1,12 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} VisuTest 
    Caption         =   "UserForm1"
-   ClientHeight    =   6048
-   ClientLeft      =   96
-   ClientTop       =   372
-   ClientWidth     =   17688
+   ClientHeight    =   3864
+   ClientLeft      =   48
+   ClientTop       =   180
+   ClientWidth     =   11316
    OleObjectBlob   =   "VisuTest.frx":0000
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   2  'CenterScreen
 End
 Attribute VB_Name = "VisuTest"
 Attribute VB_GlobalNameSpace = False

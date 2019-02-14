@@ -1,29 +1,18 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frm023 
    Caption         =   "Frasortering"
-   ClientHeight    =   6048
-   ClientLeft      =   96
-   ClientTop       =   360
-   ClientWidth     =   9024.001
+   ClientHeight    =   6936
+   ClientLeft      =   60
+   ClientTop       =   180
+   ClientWidth     =   10980
    OleObjectBlob   =   "frm023.frx":0000
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   2  'CenterScreen
 End
 Attribute VB_Name = "frm023"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-
-
-
-Private Sub Ja_Click()
-
-End Sub
-
-Private Sub Label1_Click()
-
-End Sub
-
 Public Sub OKButton_Click()
 If OptionButton1.Value = False And OptionButton2.Value = False Then
     dFunc.msgError = "Vælg venligst et svar for at forsætte"
@@ -33,16 +22,6 @@ End If
     
 'Worksheets("SpmSvar").Range("C41:C41").Value = Controls("Label1").caption
     
-If OptionButton1.Value = True Then
-'    Worksheets("SpmSvar").Range("D41:D41").Value = "Ja"
-    Call writeSpmSvar("14", Controls("Label1").caption, Controls("OptionButton1").caption)
-End If
-
-If OptionButton2.Value = True Then
-'    Worksheets("SpmSvar").Range("D41:D41").Value = "Nej"
-    Call writeSpmSvar("14", Controls("Label1").caption, Controls("OptionButton2").caption)
-End If
-
 ' Worksheets("Konfiguration").Activate
 ' Activate sheet
 
@@ -61,12 +40,18 @@ If OptionButton2.Value = True Then
 End If
 
 If OptionButton1.Value = True Then
+
+    Call writeSpmSvar("14", Controls("Label1").caption, Controls("OptionButton1").caption)
     Me.Hide
     'store current form#
     recHis ("frm023")
     SFunc.ShowFunc ("frm017")
     'frm017.Show
+    
 ElseIf frm005.OptionButton1.Value = True Then
+
+    
+    Call writeSpmSvar("14", Controls("Label1").caption, Controls("OptionButton2").caption)
     Me.Hide
     'store current form#
     recHis ("frm023")
@@ -83,13 +68,6 @@ End If
 ending:
 End Sub
 
-Private Sub OptionButton1_Click()
-
-End Sub
-
-Private Sub OptionButton2_Click()
-
-End Sub
 
 Public Sub Tilbage_Click()
 
@@ -103,7 +81,7 @@ End Sub
 
 Private Sub UserForm_Initialize()
 
-Image1.PictureSizeMode = fmPictureSizeModeStretch
+Image1.PictureSizeMode = fmPictureSizeModeClip
 
 ' Indlæs tidligere svar 14
 If findPreviousAns(findTopSpm("F"), "14", 1) = "Ja" Then
@@ -124,5 +102,5 @@ End If
 '    OptionButton2.Value = False
 'End If
 
-
+Call drawProgressBar(Me, Me.Name)
 End Sub

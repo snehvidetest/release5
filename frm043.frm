@@ -1,12 +1,12 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frm043 
    Caption         =   "Advarsel"
-   ClientHeight    =   3672
-   ClientLeft      =   96
-   ClientTop       =   372
-   ClientWidth     =   4152
+   ClientHeight    =   3696
+   ClientLeft      =   24
+   ClientTop       =   96
+   ClientWidth     =   4080
    OleObjectBlob   =   "frm043.frx":0000
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   2  'CenterScreen
 End
 Attribute VB_Name = "frm043"
 Attribute VB_GlobalNameSpace = False
@@ -17,7 +17,7 @@ Attribute VB_Exposed = False
 Public Sub CommandButton1_Click()
 Me.Hide
 'store current form#
-recHis ("frm043")
+'recHis (Me.Name)
 
 If frm004.ActiveControl Is Nothing Then
     ' ingen værdi
@@ -39,14 +39,6 @@ Else
         
         GoTo ending
 End If
-
-
-
-
-
-
-
-
 
 
 

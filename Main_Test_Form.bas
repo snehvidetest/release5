@@ -12,7 +12,7 @@ Sub Main_test_forms()
 
 
 
-'    Application.ScreenUpdating = False
+    Application.ScreenUpdating = False
     Dim wb As Workbook, wks As Worksheet
     
     workbookName = "FF_Spgskema_TC_main.xlsm"               'Name of test workbook
@@ -35,7 +35,8 @@ Sub Main_test_forms()
     
     'Clear cells in testcase results sheet
 '    Global_Test_Func.ClearTestResults
-    
+    'Clear Formlog
+    ThisWorkbook.Worksheets("Form_Log").Columns(1).ClearContents
     
     'Start testing!
     TestMode = True
@@ -47,8 +48,8 @@ Sub Main_test_forms()
 '    Debug.Print ("3")
 '    Frm004_test.RunTests
 '    Debug.Print ("4")
-    Frm005_test.RunTests
-    Debug.Print ("5")
+'    Frm005_test.RunTests
+'    Debug.Print ("5")
 '    Frm006_test.RunTests
 '    Debug.Print ("6")
 '    Frm007_test.RunTests
@@ -73,16 +74,16 @@ Sub Main_test_forms()
 '    Debug.Print ("26")
 '    Frm028_test.RunTests
 '    Debug.Print ("28")
-'    Frm029_test.RunTests
-'    Debug.Print ("29")
-'    Frm030_test.RunTests
-'    Debug.Print ("30")
-'    Frm031_test.RunTests
-'    Debug.Print ("31")
-'    Frm032_test.RunTests
-'    Debug.Print ("32")
-'    Frm033_test.RunTests
-'    Debug.Print ("33")
+    Frm029_test.RunTests
+    Debug.Print ("29")
+    Frm030_test.RunTests
+    Debug.Print ("30")
+    Frm031_test.RunTests
+    Debug.Print ("31")
+    Frm032_test.RunTests
+    Debug.Print ("32")
+''    Frm033_test.RunTests
+''    Debug.Print ("33")
 '    Frm034_test.RunTests
 '    Debug.Print ("34")
 '    Frm035_test.RunTests
@@ -106,6 +107,7 @@ Sub Main_test_forms()
 '    Frm047_test.RunTests
 '    Debug.Print ("47")
     TestMode = False
+    Application.ScreenUpdating = True
 End Sub
 
 

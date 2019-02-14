@@ -1,12 +1,12 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frm007 
    Caption         =   "Forældelseskontrol"
-   ClientHeight    =   7560
-   ClientLeft      =   108
-   ClientTop       =   456
-   ClientWidth     =   11292
+   ClientHeight    =   6936
+   ClientLeft      =   36
+   ClientTop       =   288
+   ClientWidth     =   10980
    OleObjectBlob   =   "frm007.frx":0000
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   2  'CenterScreen
 End
 Attribute VB_Name = "frm007"
 Attribute VB_GlobalNameSpace = False
@@ -86,7 +86,7 @@ End Sub
 
 Private Sub UserForm_Initialize()
 
-Image1.PictureSizeMode = fmPictureSizeModeStretch
+Image1.PictureSizeMode = fmPictureSizeModeClip
 
 ' Indlæs tidligere svar 9
 If findPreviousAns(findTopSpm("F"), "9", 1) = "Altid" Then
@@ -101,5 +101,5 @@ Else
     OptionButton3.Value = False
 End If
 
-
+Call drawProgressBar(Me, Me.Name)
 End Sub

@@ -1,12 +1,12 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frm025 
    Caption         =   "Afslutning"
-   ClientHeight    =   4836
-   ClientLeft      =   84
-   ClientTop       =   264
-   ClientWidth     =   7212
+   ClientHeight    =   6936
+   ClientLeft      =   60
+   ClientTop       =   180
+   ClientWidth     =   10980
    OleObjectBlob   =   "frm025.frx":0000
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   2  'CenterScreen
 End
 Attribute VB_Name = "frm025"
 Attribute VB_GlobalNameSpace = False
@@ -15,14 +15,29 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
 
+Private Sub Image1_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
+
+End Sub
+
 Public Sub OKButton_Click()
     Me.Hide
     'store current form#
     recHis ("frm025")
     
     Call formatPDF
+
     
     Call SavePDF
+    
+        
+    Dim frm As UserForm
+    For Each frm In UserForms
+        Unload frm  'all forms are unloaded
+    Next frm
+    
+    For Each frm In UserForms
+        Unload frm  'all forms are unloaded
+    Next frm
     
     ' Close all
     'Dim UForm As Object
@@ -34,11 +49,8 @@ Public Sub OKButton_Click()
     '    Unload VBA.UserForms(i)
     '   i = i + 1
     'Next
-    Dim objLoop As Object
-    
-    For Each objLoop In VBA.UserForms
-        If TypeOf objLoop Is UserForm Then Unload objLoop
-    Next objLoop
+
+
     
     'dFunc.msgError = "Tak - din besvarelse er nu gemt !"
     'SFunc.ShowFunc ("frmMsg")
@@ -64,17 +76,23 @@ Private Sub SavePDF()
     With ActiveSheet.PageSetup
         .Orientation = xlLandscape
     End With
-    
-    ActiveSheet.ExportAsFixedFormat Type:=xlTypePDF, Filename:=PathString, _
+    Worksheets("PDF").Visible = True
+    On Error GoTo closePDF
+    Worksheets("PDF").ExportAsFixedFormat Type:=xlTypePDF, Filename:=PathString, _
             Quality:=xlQualityStandard, IncludeDocProperties:=True, IgnorePrintAreas _
             :=True, OpenAfterPublish:=True
-
+    Worksheets("PDF").Visible = False
+    Exit Sub
+    
+closePDF:
+    MsgBox "Det er ikke muligt at gemme besvarelsen, da en PDF ved navn SpørgeskemaBesvarelse allerede er åben. Luk venligst PDF'en og forsøg igen."
+    frm025.Show
 End Sub
 
 Private Sub UserForm_Initialize()
 
-Image1.PictureSizeMode = fmPictureSizeModeStretch
-
+Image1.PictureSizeMode = fmPictureSizeModeClip
+Call drawProgressBar(Me, Me.Name)
 End Sub
 
 Private Sub formatPDF()
@@ -90,6 +108,17 @@ Private Sub formatPDF()
     
     'Format PDF
     Worksheets("PDF").Range("A1", "E" & maxRow).WrapText = True
+    
+    Dim waterMark As String
+    
+    waterMark = Format(Now(), "yyMMddhhmmss")
+    
+    With Worksheets("PDF").PageSetup
+        .DifferentFirstPageHeaderFooter = True
+        .FirstPage.LeftFooter.Text = waterMark
+    End With
+    
+    Worksheets("PDF").PageSetup.LeftFooter = waterMark
     Dim rng As Range
 
     Set rng = Worksheets("PDF").Range("A1", "E" & maxRow)
@@ -121,4 +150,6 @@ Private Sub formatPDF()
     edges(1) = xlEdgeRight
     rng.Borders(edges(1)).LineStyle = xlNone
     rng.Borders(edges(0)).LineStyle = xlDot
+    
+
 End Sub

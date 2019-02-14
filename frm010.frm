@@ -1,12 +1,12 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frm010 
    Caption         =   "Forældelseskontrol"
-   ClientHeight    =   4836
-   ClientLeft      =   60
-   ClientTop       =   276
-   ClientWidth     =   7212
+   ClientHeight    =   5544
+   ClientLeft      =   48
+   ClientTop       =   108
+   ClientWidth     =   8784.001
    OleObjectBlob   =   "frm010.frx":0000
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   2  'CenterScreen
 End
 Attribute VB_Name = "frm010"
 Attribute VB_GlobalNameSpace = False
@@ -14,8 +14,9 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
+Private Sub Image1_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
 
-
+End Sub
 
 Private Sub Label1_Click()
 
@@ -82,7 +83,7 @@ End If
         Me.Hide
         'store current form#
         recHis ("frm010")
-        SFunc.ShowFunc ("frm039")
+        SFunc.ShowFunc ("frm014")
         
         
     Else
@@ -138,7 +139,7 @@ End Sub
 
 Private Sub UserForm_Initialize()
 
-Image1.PictureSizeMode = fmPictureSizeModeStretch
+Image1.PictureSizeMode = fmPictureSizeModeClip
 
 ' Indlæs tidligere svar 9a22
 If IsNumeric(findPreviousAns(findTopSpm("F"), "9.a.2.2", 1)) Then
@@ -153,5 +154,5 @@ Else
     OptionButton2.Value = False
 End If
 
-
+Call drawProgressBar(Me, Me.Name)
 End Sub

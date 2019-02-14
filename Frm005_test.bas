@@ -84,6 +84,7 @@ Private Function Testcase(tc As Integer)
             result = Global_Test_Func.NextStep(parameters("expected"))
             
         Case "backButton"
+            recHis ("frm002")
             frm005.Tilbage_Click
             result = Global_Test_Func.NextStep(parameters("expected"))
             

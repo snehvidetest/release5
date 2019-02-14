@@ -5,7 +5,7 @@ Private formName As String
 Private stopFormTest As Boolean
 Private parameters As Scripting.Dictionary
 Private parametersAndCols As Scripting.Dictionary
-Private spmCells As Scripting.Dictionary
+'Private spmCells As Scripting.Dictionary
 Private popCells As Scripting.Dictionary
 Private rulCells As Scripting.Dictionary
 Private groCells As Scripting.Dictionary
@@ -25,15 +25,15 @@ Sub RunTests()
     nrTC = Application.WorksheetFunction.CountIf(testWS.Range("A:A"), formID)
     
 
-'    For i = 1 To nrTC
-'        Set parameters = New Scripting.Dictionary
-'        Testcase i
-'    Next i
-
-    For i = 199 To 220
+    For i = 1 To nrTC
         Set parameters = New Scripting.Dictionary
         Testcase i
     Next i
+
+'    For i = 199 To 220
+'        Set parameters = New Scripting.Dictionary
+'        Testcase i
+'    Next i
     
     Exit Sub
 Error_handler:
@@ -70,17 +70,39 @@ Private Function Testcase(tc As Integer)
             frm029.OKButton_Click 'Click on Videre button
             Select Case parameters("testParameter")
                 Case "optionButton1"
-                    CheckFields "SpmSvar", "D76"
+                    'CheckFields "SpmSvar", "D76"
+                    result = findPreviousAns(findTopSpm("A"), "10.a_3", 1, 1)
                 Case "optionButton2"
-                    CheckFields "SpmSvar", "D76"
+                    'CheckFields "SpmSvar", "D76"
+                    result = findPreviousAns(findTopSpm("A"), "10.a_3", 1, 1)
                 Case "textbox1"
-                    CheckFields "SpmSvar", "D77"
+                    'CheckFields "SpmSvar", "D72"
+                    If parameters("optionButton1") = True Then
+                        result = findPreviousAns(findTopSpm("A"), "10.a.1_3", 1, 1)
+                    ElseIf parameters("optionButton2") = True Then
+                        result = findPreviousAns(findTopSpm("A"), "10.a.2_3", 1, 1)
+                    End If
                 Case "textbox2"
-                    CheckFields "SpmSvar", "D78"
+                    'CheckFields "SpmSvar", "D73"
+                    If parameters("optionButton1") = True Then
+                        result = findPreviousAns(findTopSpm("A"), "10.a.1.1_3", 1, 1)
+                    ElseIf parameters("optionButton2") = True Then
+                        result = findPreviousAns(findTopSpm("A"), "10.a.2.1_3", 1, 1)
+                    End If
                 Case "checkbox1"
-                    CheckFields "SpmSvar", "D77"
+                    'CheckFields "SpmSvar", "D72"
+                    If parameters("optionButton1") = True Then
+                        result = findPreviousAns(findTopSpm("A"), "10.a.1_3", 1, 1)
+                    ElseIf parameters("optionButton2") = True Then
+                        result = findPreviousAns(findTopSpm("A"), "10.a.2_3", 1, 1)
+                    End If
                 Case "checkbox2"
-                    CheckFields "SpmSvar", "D78"
+                    'CheckFields "SpmSvar", "D73"
+                    If parameters("optionButton1") = True Then
+                        result = findPreviousAns(findTopSpm("A"), "10.a.1.1_3", 1, 1)
+                    ElseIf parameters("optionButton2") = True Then
+                        result = findPreviousAns(findTopSpm("A"), "10.a.2.1_3", 1, 1)
+                    End If
             End Select
         Case "printsToPopSheet"
             SetFields
@@ -139,6 +161,7 @@ Private Function Testcase(tc As Integer)
             result = Global_Test_Func.NextStep(parameters("expected"))
             
         Case "backButton"
+            recHis ("frm014")
             frm029.Tilbage_Click
             result = Global_Test_Func.NextStep(parameters("expected"))
             
@@ -235,43 +258,68 @@ Private Function CheckFields(sheet As String, cell As String)
 End Function
 Private Function DataIsSaved(sheet As String)
    
-   If parameters("expected") = True Then
+    If parameters("expected") = True Then
         Select Case parameters("testParameter")
-           Case "optionButton1"
-               ThisWorkbook.Sheets(sheet).Range("D76").Value = "Før det valgte stamdatafelt"
-               ShowFunc (formName)
-               result = CStr(frm029.OptionButton1.Value)
-           Case "optionButton2"
-               ThisWorkbook.Sheets(sheet).Range("D76").Value = "Samme dag eller senere end det valgte stamdatafelt"
-               result = CStr(frm029.OptionButton2.Value)
-           Case "textbox1"
-               ThisWorkbook.Sheets(sheet).Range("D77").Value = "10"
-               ShowFunc (formName)
-               result = CStr(frm029.TextBox1.Value)
+            Case "optionButton1"
+                If parameters("optionButton1") = "True" Then
+                    Call writeSpmSvar("10.a_3", "", "Før det valgte stamdatafelt", "", 6)
+                End If
+                If parameters("optionButton2") = "True" Then
+                    Call writeSpmSvar("10.a_3", "", "Samme dag eller senere end det valgte stamdatafelt", "", 6)
+                End If
+                ShowFunc (formName)
+                result = CStr(frm029.OptionButton1.Value)
+            Case "optionButton2"
+               If parameters("optionButton1") = "True" Then
+                    Call writeSpmSvar("10.a_3", "", "Før det valgte stamdatafelt", "", 6)
+                End If
+                If parameters("optionButton2") = "True" Then
+                    Call writeSpmSvar("10.a_3", "", "Samme dag eller senere end det valgte stamdatafelt", "", 6)
+                End If
+                ShowFunc (formName)
+                result = CStr(frm029.OptionButton2.Value)
+            Case "textbox1"
+               'ThisWorkbook.Sheets(sheet).Range("D72").Value = "10"
+                If parameters("optionButton1") = "True" Then
+                Call writeSpmSvar("10.a_3", "", "Før det valgte stamdatafelt", "", 6)
+                End If
+                If parameters("optionButton2") = "True" Then
+                    Call writeSpmSvar("10.a_3", "", "Samme dag eller senere end det valgte stamdatafelt", "", 6)
+                End If
+                Call writeSpmSvar("10.a.1_3", "", CStr(parameters("textbox1")), "", 6)
+                ShowFunc (formName)
+                result = CStr(frm029.TextBox1.Value)
             Case "textbox2"
-               ThisWorkbook.Sheets(sheet).Range("D78").Value = "10"
-               ShowFunc (formName)
-               result = CStr(frm029.TextBox2.Value)
+                'ThisWorkbook.Sheets(sheet).Range("D73").Value = "10"
+                If parameters("optionButton1") = "True" Then
+                    Call writeSpmSvar("10.a_3", "", "Før det valgte stamdatafelt", "", 6)
+                End If
+                If parameters("optionButton2") = "True" Then
+                    Call writeSpmSvar("10.a_3", "", "Samme dag eller senere end det valgte stamdatafelt", "", 6)
+                End If
+                Call writeSpmSvar("10.a.1.1_3", "", CStr(parameters("textbox2")), "", 6)
+                ShowFunc (formName)
+                result = CStr(frm029.TextBox2.Value)
         End Select
     Else
         Select Case parameters("testParameter")
            Case "optionButton1"
-               ThisWorkbook.Sheets(sheet).Range("D76").Value = ""
+               'ThisWorkbook.Sheets(sheet).Range("D71").Value = ""
                ShowFunc (formName)
                result = CStr(frm029.OptionButton1.Value)
            Case "optionButton2"
-               ThisWorkbook.Sheets(sheet).Range("D76").Value = ""
+               'ThisWorkbook.Sheets(sheet).Range("D71").Value = ""
                result = CStr(frm029.OptionButton2.Value)
            Case "textbox1"
-               ThisWorkbook.Sheets(sheet).Range("D77").Value = ""
+               'ThisWorkbook.Sheets(sheet).Range("D72").Value = ""
                ShowFunc (formName)
                result = CStr(frm029.TextBox1.Value)
             Case "textbox2"
-               ThisWorkbook.Sheets(sheet).Range("D78").Value = ""
+               'ThisWorkbook.Sheets(sheet).Range("D73").Value = ""
                ShowFunc (formName)
                result = CStr(frm029.TextBox2.Value)
         End Select
-    End If
+End If
     
 End Function
 Private Function CheckNoExtraPrints()

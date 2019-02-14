@@ -1,12 +1,12 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frm004 
-   Caption         =   "UserForm1"
-   ClientHeight    =   6384
-   ClientLeft      =   96
-   ClientTop       =   384
-   ClientWidth     =   9024.001
+   Caption         =   "Populationsafgrænsning"
+   ClientHeight    =   6936
+   ClientLeft      =   144
+   ClientTop       =   420
+   ClientWidth     =   10980
    OleObjectBlob   =   "frm004.frx":0000
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   2  'CenterScreen
 End
 Attribute VB_Name = "frm004"
 Attribute VB_GlobalNameSpace = False
@@ -92,7 +92,7 @@ End Sub
 
 
 Private Sub UserForm_Initialize()
-Image1.PictureSizeMode = fmPictureSizeModeStretch
+Image1.PictureSizeMode = fmPictureSizeModeClip
     ' Indlæs tidligere svar
 
 If findPreviousAns(findTopSpm("F"), "4.a.1", 1) = "" Then
@@ -103,5 +103,5 @@ End If
 
 TextBox2.Value = findPreviousAns(findTopSpm("F"), "4.a.1", 2)
 
-
+Call drawProgressBar(Me, Me.Name)
 End Sub

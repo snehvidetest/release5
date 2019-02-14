@@ -1,18 +1,22 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frm012 
    Caption         =   "Forældelseskontrol"
-   ClientHeight    =   6048
-   ClientLeft      =   96
-   ClientTop       =   360
-   ClientWidth     =   9024.001
+   ClientHeight    =   6936
+   ClientLeft      =   36
+   ClientTop       =   108
+   ClientWidth     =   10980
    OleObjectBlob   =   "frm012.frx":0000
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   2  'CenterScreen
 End
 Attribute VB_Name = "frm012"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
+Private Sub Image1_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
+
+End Sub
 
 Public Sub OKButton_Click()
 If OptionButton1.Value = False And OptionButton2.Value = False Then
@@ -70,7 +74,7 @@ End Sub
 
 Private Sub UserForm_Initialize()
 
-Image1.PictureSizeMode = fmPictureSizeModeStretch
+Image1.PictureSizeMode = fmPictureSizeModeClip
 
 ' Indlæs tidligere svar 9b2
 If findPreviousAns(findTopSpm("F"), "9.b.2", 1) = "Ja" Then
@@ -82,5 +86,5 @@ Else
     OptionButton2.Value = False
 End If
 
-
+Call drawProgressBar(Me, Me.Name)
 End Sub

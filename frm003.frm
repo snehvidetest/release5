@@ -1,12 +1,12 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frm003 
    Caption         =   "Populationsafgrænsning"
-   ClientHeight    =   6048
-   ClientLeft      =   84
-   ClientTop       =   372
-   ClientWidth     =   9024.001
+   ClientHeight    =   6936
+   ClientLeft      =   60
+   ClientTop       =   204
+   ClientWidth     =   10980
    OleObjectBlob   =   "frm003.frx":0000
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   2  'CenterScreen
 End
 Attribute VB_Name = "frm003"
 Attribute VB_GlobalNameSpace = False
@@ -107,7 +107,7 @@ OptionButton2.Value = False
 OptionButton3.Value = False
 myAns = findPreviousAns(findTopSpm("F"), "4.a", 1)
 'Fill JA/NEJ ComboBox
-Image1.PictureSizeMode = fmPictureSizeModeStretch
+Image1.PictureSizeMode = fmPictureSizeModeClip
 ' Activate sheet
 ' Worksheets("Population").Activate
 
@@ -119,5 +119,7 @@ ElseIf myAns = OptionButton2.caption Then
 ElseIf myAns = OptionButton3.caption Then
     OptionButton3.Value = True
 End If
+
+Call drawProgressBar(Me, Me.Name)
 
 End Sub

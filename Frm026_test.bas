@@ -4,12 +4,12 @@ Private formID As Integer
 Private formName As String
 Private parameters As Scripting.Dictionary
 Private parametersAndCols As Scripting.Dictionary
-Private spmCells As Scripting.Dictionary
+'Private spmCells As Scripting.Dictionary
 Private popCells As Scripting.Dictionary
 Private rulCells As Scripting.Dictionary
 Private groCells As Scripting.Dictionary
 Sub RunTests()
-    On Error GoTo Error_handler
+    'On Error GoTo Error_handler
     formName = "frm026"
     formID = 26
 
@@ -85,6 +85,7 @@ Private Function Testcase(tc As Integer)
 
             
         Case "backButton"
+            recHis ("frm003")
             frm026.Tilbage_Click
             result = Global_Test_Func.NextStep(parameters("expected"))
             
@@ -153,35 +154,50 @@ Private Function CheckFields(sheet As String)
         Case "SpmSvar"
             Select Case parameters("testParameter")
                 Case "forfaldsdato"
-                    result = ThisWorkbook.Sheets(sheet).Range("D8").Text
+                    'result = ThisWorkbook.Sheets(sheet).Range("D8").Text
+                    result = findPreviousAns(findTopSpm("A"), "4.a.2.1_1", 0, 1)
                 Case "forfaldsdatoFrom"
-                    result = ThisWorkbook.Sheets(sheet).Range("E8").Text
+                    'result = ThisWorkbook.Sheets(sheet).Range("E8").Text
+                    result = findPreviousAns(findTopSpm("A"), "4.a.2.1_1", 1, 1)
                 Case "forfaldsdatoTo"
-                    result = ThisWorkbook.Sheets(sheet).Range("F8").Text
+                    'result = ThisWorkbook.Sheets(sheet).Range("F8").Text
+                    result = findPreviousAns(findTopSpm("A"), "4.a.2.1_1", 2, 1)
                 Case "srb"
-                    result = ThisWorkbook.Sheets(sheet).Range("D9").Text
+                    'result = ThisWorkbook.Sheets(sheet).Range("D9").Text
+                    result = findPreviousAns(findTopSpm("A"), "4.a.2.1_2", 0, 1)
                 Case "srbFrom"
-                    result = ThisWorkbook.Sheets(sheet).Range("E9").Text
+                    'result = ThisWorkbook.Sheets(sheet).Range("E9").Text
+                    result = findPreviousAns(findTopSpm("A"), "4.a.2.1_2", 1, 1)
                 Case "srbTo"
-                    result = ThisWorkbook.Sheets(sheet).Range("F9").Text
+                    'result = ThisWorkbook.Sheets(sheet).Range("F9").Text
+                    result = findPreviousAns(findTopSpm("A"), "4.a.2.1_2", 2, 1)
                 Case "stiftelsesdato"
-                    result = ThisWorkbook.Sheets(sheet).Range("D10").Text
+                    'result = ThisWorkbook.Sheets(sheet).Range("D10").Text
+                    result = findPreviousAns(findTopSpm("A"), "4.a.2.1_3", 0, 1)
                 Case "stiftelsesdatoFrom"
-                    result = ThisWorkbook.Sheets(sheet).Range("E10").Text
+                    'result = ThisWorkbook.Sheets(sheet).Range("E10").Text
+                    result = findPreviousAns(findTopSpm("A"), "4.a.2.1_3", 1, 1)
                 Case "stiftelsesdatoTo"
-                    result = ThisWorkbook.Sheets(sheet).Range("F10").Text
+                    'result = ThisWorkbook.Sheets(sheet).Range("F10").Text
+                    result = findPreviousAns(findTopSpm("A"), "4.a.2.1_3", 2, 1)
                 Case "periodeStart"
-                    result = ThisWorkbook.Sheets(sheet).Range("D11").Text
+                    'result = ThisWorkbook.Sheets(sheet).Range("D11").Text
+                    result = findPreviousAns(findTopSpm("A"), "4.a.2.1_4", 0, 1)
                 Case "periodeStartFrom"
-                    result = ThisWorkbook.Sheets(sheet).Range("E11").Text
+                    'result = ThisWorkbook.Sheets(sheet).Range("E11").Text
+                    result = findPreviousAns(findTopSpm("A"), "4.a.2.1_4", 1, 1)
                 Case "periodeStartTo"
-                    result = ThisWorkbook.Sheets(sheet).Range("F11").Text
+                    'result = ThisWorkbook.Sheets(sheet).Range("F11").Text
+                    result = findPreviousAns(findTopSpm("A"), "4.a.2.1_4", 2, 1)
                 Case "periodeSlut"
-                    result = ThisWorkbook.Sheets(sheet).Range("D12").Text
+                    'result = ThisWorkbook.Sheets(sheet).Range("D12").Text
+                    result = findPreviousAns(findTopSpm("A"), "4.a.2.1_5", 0, 1)
                 Case "periodeSlutFrom"
-                    result = ThisWorkbook.Sheets(sheet).Range("E12").Text
+                    'result = ThisWorkbook.Sheets(sheet).Range("E12").Text
+                    result = findPreviousAns(findTopSpm("A"), "4.a.2.1_5", 1, 1)
                 Case "periodeSlutTo"
-                    result = ThisWorkbook.Sheets(sheet).Range("F12").Text
+                    'result = ThisWorkbook.Sheets(sheet).Range("F12").Text
+                    result = findPreviousAns(findTopSpm("A"), "4.a.2.1_5", 2, 1)
             End Select
             
         Case "Population"
@@ -216,33 +232,38 @@ End Function
 Function DataIsSaved(sheet As String)
 
     If parameters("forfaldsdato") = True Then
-        ThisWorkbook.Sheets(sheet).Range("D8").Value = "Forfaldsdato"
-        ThisWorkbook.Sheets(sheet).Range("E8").Value = parameters("forfaldsdatoFrom")
-        ThisWorkbook.Sheets(sheet).Range("F8").Value = parameters("forfaldsdatoTo")
+'        ThisWorkbook.Sheets(sheet).Range("D8").Value = "Forfaldsdato"
+'        ThisWorkbook.Sheets(sheet).Range("E8").Value = parameters("forfaldsdatoFrom")
+'        ThisWorkbook.Sheets(sheet).Range("F8").Value = parameters("forfaldsdatoTo")
+        Call writeSpmSvar("4.a.2.1_1", "Forfaldsdato", parameters("forfaldsdatoFrom"), parameters("forfaldsdatoTo"), 6)
     End If
         
     If parameters("srb") = True Then
-        ThisWorkbook.Sheets(sheet).Range("D9").Value = "SRB Dato"
-        ThisWorkbook.Sheets(sheet).Range("E9").Value = parameters("srbFrom")
-        ThisWorkbook.Sheets(sheet).Range("F9").Value = parameters("srbTo")
+'        ThisWorkbook.Sheets(sheet).Range("D9").Value = "SRB Dato"
+'        ThisWorkbook.Sheets(sheet).Range("E9").Value = parameters("srbFrom")
+'        ThisWorkbook.Sheets(sheet).Range("F9").Value = parameters("srbTo")
+        Call writeSpmSvar("4.a.2.1_2", "SRB Dato", parameters("forfaldsdatoFrom"), parameters("forfaldsdatoTo"), 6)
     End If
     
     If parameters("stiftelsesdato") = True Then
-        ThisWorkbook.Sheets(sheet).Range("D10").Value = "Stiftelsesdato"
-        ThisWorkbook.Sheets(sheet).Range("E10").Value = parameters("stiftelsesdatoFrom")
-        ThisWorkbook.Sheets(sheet).Range("F10").Value = parameters("stiftelsesdatoTo")
+'        ThisWorkbook.Sheets(sheet).Range("D10").Value = "Stiftelsesdato"
+'        ThisWorkbook.Sheets(sheet).Range("E10").Value = parameters("stiftelsesdatoFrom")
+'        ThisWorkbook.Sheets(sheet).Range("F10").Value = parameters("stiftelsesdatoTo")
+        Call writeSpmSvar("4.a.2.1_3", "Stiftelsesdato", parameters("forfaldsdatoFrom"), parameters("forfaldsdatoTo"), 6)
     End If
     
     If parameters("periodeStart") = True Then
-        ThisWorkbook.Sheets(sheet).Range("D11").Value = "PeriodeStartdato"
-        ThisWorkbook.Sheets(sheet).Range("E11").Value = parameters("periodeStartFrom")
-        ThisWorkbook.Sheets(sheet).Range("F11").Value = parameters("periodeStartTo")
+'        ThisWorkbook.Sheets(sheet).Range("D11").Value = "PeriodeStartdato"
+'        ThisWorkbook.Sheets(sheet).Range("E11").Value = parameters("periodeStartFrom")
+'        ThisWorkbook.Sheets(sheet).Range("F11").Value = parameters("periodeStartTo")
+        Call writeSpmSvar("4.a.2.1_4", "Periode startdato", parameters("forfaldsdatoFrom"), parameters("forfaldsdatoTo"), 6)
     End If
     
     If parameters("periodeSlut") = True Then
-        ThisWorkbook.Sheets(sheet).Range("D12").Value = "PeriodeSlutdato"
-        ThisWorkbook.Sheets(sheet).Range("E12").Value = parameters("periodeSlutFrom")
-        ThisWorkbook.Sheets(sheet).Range("F12").Value = parameters("periodeSlutTo")
+'        ThisWorkbook.Sheets(sheet).Range("D12").Value = "PeriodeSlutdato"
+'        ThisWorkbook.Sheets(sheet).Range("E12").Value = parameters("periodeSlutFrom")
+'        ThisWorkbook.Sheets(sheet).Range("F12").Value = parameters("periodeSlutTo")
+        Call writeSpmSvar("4.a.2.1_5", "Periode slutdato", parameters("forfaldsdatoFrom"), parameters("forfaldsdatoTo"), 6)
     End If
             
     ShowFunc (formName)
@@ -285,6 +306,7 @@ Private Function CheckNoExtraPrints()
     'Check Which configuration to choose
     Select Case parameters("testParameter")
         'Test different cases were different cells should be changed
+        
         Case "noChangeWhenError"
         Case "noChangeWhenBackButton"
             popCells.Add "B6", ""
@@ -298,6 +320,7 @@ Private Function CheckNoExtraPrints()
             popCells.Add "B14", ""
             popCells.Add "B15", ""
             
+            
         Case "config1"
             popCells.Add "B6", parameters("forfaldsdatoFrom")
             popCells.Add "B7", parameters("forfaldsdatoTo")
@@ -309,6 +332,10 @@ Private Function CheckNoExtraPrints()
             popCells.Add "B13", ""
             popCells.Add "B14", ""
             popCells.Add "B15", ""
+            
+            Call addSpm("4.a.2.1", "")
+            Call addSpm("4.a.2.1_1", parameters("forfaldsdatoFrom"), parameters("forfaldsdatoTo"))
+            
         Case "config2"
             popCells.Add "B6", ""
             popCells.Add "B7", ""
@@ -321,6 +348,8 @@ Private Function CheckNoExtraPrints()
             popCells.Add "B14", ""
             popCells.Add "B15", ""
             
+            Call addSpm("4.a.2.1", "")
+            Call addSpm("4.a.2.1_2", parameters("srbFrom"), parameters("srbTo"))
         Case "config3"
         
             popCells.Add "B6", ""
@@ -333,6 +362,9 @@ Private Function CheckNoExtraPrints()
             popCells.Add "B13", ""
             popCells.Add "B14", ""
             popCells.Add "B15", ""
+            
+            Call addSpm("4.a.2.1", "")
+            Call addSpm("4.a.2.1_3", parameters("stiftelsesdatoFrom"), parameters("stiftelsesdatoTo"))
         Case "config4"
         
             popCells.Add "B6", ""
@@ -345,6 +377,9 @@ Private Function CheckNoExtraPrints()
             popCells.Add "B13", parameters("periodeStartTo")
             popCells.Add "B14", ""
             popCells.Add "B15", ""
+            
+            Call addSpm("4.a.2.1", "")
+            Call addSpm("4.a.2.1_4", parameters("periodeStartFrom"), parameters("periodeStartTo"))
         Case "config5"
         
             popCells.Add "B6", ""
@@ -357,6 +392,9 @@ Private Function CheckNoExtraPrints()
             popCells.Add "B13", ""
             popCells.Add "B14", parameters("periodeSlutFrom")
             popCells.Add "B15", parameters("periodeSlutTo")
+            
+            Call addSpm("4.a.2.1", "")
+            Call addSpm("4.a.2.1_5", parameters("periodeSlutFrom"), parameters("periodeSlutTo"))
         
         
             

@@ -1,12 +1,12 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frm017 
    Caption         =   "Frasortering"
-   ClientHeight    =   6048
-   ClientLeft      =   84
-   ClientTop       =   372
-   ClientWidth     =   9024.001
+   ClientHeight    =   6936
+   ClientLeft      =   60
+   ClientTop       =   276
+   ClientWidth     =   10980
    OleObjectBlob   =   "frm017.frx":0000
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   2  'CenterScreen
 End
 Attribute VB_Name = "frm017"
 Attribute VB_GlobalNameSpace = False
@@ -154,13 +154,13 @@ Public Sub Tilbage_Click()
     Me.Hide
     'go back to previously stored form#
     Call goBack
-    ShowFunc ("frm023")
+    'ShowFunc ("frm023")
     'frm023.Show
 End Sub
 
 Private Sub UserForm_Initialize()
 
-    Image1.PictureSizeMode = fmPictureSizeModeStretch
+    Image1.PictureSizeMode = fmPictureSizeModeClip
 
     ' Indlæs tidligere svar
     
@@ -202,5 +202,5 @@ End If
 '            CheckBox5.Value = True
 '        End If
 '    End If
-    
+Call drawProgressBar(Me, Me.Name)
 End Sub

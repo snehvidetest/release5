@@ -1,12 +1,12 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frmMsgYesNo 
    Caption         =   "Spørgsmål?"
-   ClientHeight    =   1848
-   ClientLeft      =   84
-   ClientTop       =   372
-   ClientWidth     =   3780
+   ClientHeight    =   2340
+   ClientLeft      =   60
+   ClientTop       =   276
+   ClientWidth     =   4884
    OleObjectBlob   =   "frmMsgYesNo.frx":0000
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   2  'CenterScreen
 End
 Attribute VB_Name = "frmMsgYesNo"
 Attribute VB_GlobalNameSpace = False

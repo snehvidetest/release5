@@ -1,12 +1,12 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frm039 
    Caption         =   "Frasortering"
-   ClientHeight    =   6000
-   ClientLeft      =   96
-   ClientTop       =   360
-   ClientWidth     =   9132.001
+   ClientHeight    =   6936
+   ClientLeft      =   36
+   ClientTop       =   192
+   ClientWidth     =   10980
    OleObjectBlob   =   "frm039.frx":0000
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   2  'CenterScreen
 End
 Attribute VB_Name = "frm039"
 Attribute VB_GlobalNameSpace = False
@@ -37,6 +37,10 @@ Else
     CheckBox4.Value = True
     CheckBox4.Enabled = True
 End If
+
+End Sub
+
+Private Sub Image1_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
 
 End Sub
 
@@ -103,7 +107,7 @@ Public Sub Tilbage_Click()
 End Sub
 Private Sub UserForm_Initialize()
 
-    Image1.PictureSizeMode = fmPictureSizeModeStretch
+    Image1.PictureSizeMode = fmPictureSizeModeClip
     
     ' Activate sheet
     Worksheets("SpmSvar").Activate
@@ -121,4 +125,5 @@ Private Sub UserForm_Initialize()
     If findPreviousAns(findTopSpm("F"), "11", 1) = CheckBox5.caption Then
         CheckBox5.Value = True
     End If
+Call drawProgressBar(Me, Me.Name)
 End Sub

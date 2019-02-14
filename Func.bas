@@ -124,29 +124,13 @@ MsgBox (a)
 End Sub
 
 Function executeTest()
-Dim longArray() As Variant
-myarray1 = fillArray(1, "1")
-myarray2 = fillArray(2, "1")
-myarray3 = fillArray(3, "1")
-myarray4 = fillArray(4, "1")
-
-ReDim longArray(UBound(myarray1) * 4)
-Dim i As Integer
-
-For i = 0 To (UBound(myarray1) - 1)
-    longArray(i * 4) = myarray1(i + 1)
-    longArray(i * 4 + 1) = myarray2(i + 1)
-    longArray(i * 4 + 2) = myarray3(i + 1)
-    longArray(i * 4 + 3) = myarray4(i + 1)
-Next i
-
-
 
 End Function
 
 Function writeSpmSvar(spmNum As String, caption As String, ans1 As String, Optional ans2 As String, Optional column As Integer)
+' This function writes the answer to the form in the last row unless the question has already been answered before.
+' If the question has been answered before it will delete all subsequent answers after the specified question and the write the new answer on the same row.
 
-'Skriver til
     Dim myRange As String
     Dim colStr As String
     
@@ -176,6 +160,7 @@ Function writeSpmSvar(spmNum As String, caption As String, ans1 As String, Optio
 End Function
 
 Function findTopSpm(column As String, Optional mySheet As String) As Integer
+' This function finds the total number of rows filled in rows from the top, in the specified column
     Dim maxSpm As Integer
     Dim i As Integer
     Dim myRange As String
@@ -196,6 +181,8 @@ findTopSpm = i
 End Function
 
 Function deleteHistory(topSpmRow As Integer, spmNum As String)
+' This function finds the first occurance of the question and then deletes all questions that might follow.
+' This is to ensure that even though the user goes back and changes previous answers, only the answers in the final run will be saved.
     
     Dim i As Integer
     Dim spmRange As String
@@ -217,7 +204,9 @@ ending:
 End Function
 
 Function findPreviousAns(topSpmRow As Integer, spmNum As String, ansNum As Integer, Optional column As Integer) As String
-        
+' This function searches the columns with the previous answers to the Spørgeskema.
+' If it can find the question asked, it will then output the answer.
+
     Dim i As Integer
     Dim spmRange As String
     Dim myRange As String
@@ -247,6 +236,8 @@ ending:
 End Function
 
 Function savePreviousAns()
+' This function stores the previous answers to the "Spørgeskema" in seperate columns.
+' These answers will then be used in the initiliaze process of opening the forms.
     Dim spmRange As String
     Dim myRange As String
     Dim deleteRange As String
@@ -265,7 +256,8 @@ ending:
 End Function
 
 Function findRow(topSpmRow As Integer, spmNum As String, Optional column As Integer, Optional sheet As String) As Integer
-    
+' This function outputs the first row which includes the chosen string in the specified column
+
     Dim i As Integer
     Dim spmRange As String
     Dim myRange As String
@@ -290,20 +282,8 @@ Function findRow(topSpmRow As Integer, spmNum As String, Optional column As Inte
 ending:
 End Function
 
-Function fillArray(spmNum As String, Optional column As Integer) As Variant
-Dim returnVal(4) As String
-Dim i As Integer
-
-If column = 0 Then column = 1
-
-row = findRow(findTopSpm("A"), spmNum)
-For i = column To column + 3
-    returnVal(i) = Chr(i + 64) & row
-Next i
-fillArray = returnVal
-End Function
-
 Function goBack()
+' This function goes to to the previously recorded form and deletes the current form from the log
     Dim topSpmRow As Integer
     Dim prevForm As String
     
@@ -315,9 +295,39 @@ Function goBack()
 End Function
 
 Function recHis(currentForm As String)
+' This function records the name of the current form and saves it in a log to be used in the goBack function
     Dim topSpmRow As Integer
     
     topSpmRow = findTopSpm("A", "Form_Log")
     Worksheets("Form_Log").Cells(topSpmRow, 1).Value = currentForm
+    
+End Function
+
+Function drawProgressBar(Form As UserForm, frm As String)
+'This function draws the progress bar using a bar chart in the spreadsheet "ProgressBar"
+
+'DrawChart
+    Dim totalFrmNr As Integer
+    Dim Fname As String
+    Dim MyChart As Chart
+    totalFrmNr = 37
+    frmNr = WorksheetFunction.VLookup(frm, Sheets("ProgressBar").Range("A1:B41"), 2, False)
+'SaveChart
+    Sheets("ProgressBar").Cells(2, 3).Value = frmNr
+    Set MyChart = Sheets("ProgressBar").ChartObjects(1).Chart
+        Fname = ThisWorkbook.Path & "\pBar.gif"
+        MyChart.Export Filename:=Fname, FilterName:="GIF"
+    
+'LoadChart
+    With Form.pBar
+        .Picture = LoadPicture(Fname)
+        .PictureSizeMode = fmPictureSizeModeStretch
+    End With
+
+'Delete File
+    On Error Resume Next
+    Kill Fname
+    On Error GoTo 0
+
     
 End Function

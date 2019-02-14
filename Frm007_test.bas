@@ -4,7 +4,7 @@ Private formID As Integer
 Private formName As String
 Private parameters As Scripting.Dictionary
 Private parametersAndCols As Scripting.Dictionary
-Private spmCells As Scripting.Dictionary
+'Private spmCells As Scripting.Dictionary
 Private popCells As Scripting.Dictionary
 Private rulCells As Scripting.Dictionary
 Private groCells As Scripting.Dictionary
@@ -25,11 +25,11 @@ Sub RunTests()
     Dim nrTC As Integer, i As Integer
     nrTC = Application.WorksheetFunction.CountIf(testWS.Range("A:A"), formID)
     
-'    For i = 1 To nrTC
-'        Set parameters = New Scripting.Dictionary
-'        Testcase i
-'    Next i
-    Testcase 41
+    For i = 1 To nrTC
+        Set parameters = New Scripting.Dictionary
+        Testcase i
+    Next i
+
     
     Exit Sub
 Error_handler:
@@ -69,7 +69,8 @@ Private Function Testcase(tc As Integer)
         Case "printsToSpmSheet"
             SetFields
             frm007.OKButton_Click 'Click on Videre button
-            CheckFields "SpmSvar", "D17"
+            'CheckFields "SpmSvar", "D17"
+            result = findPreviousAns(findTopSpm("A"), "9", 1, 1)
             
         Case "printsToRulSheet"
             SetFields
@@ -151,6 +152,7 @@ Private Function Testcase(tc As Integer)
             result = Global_Test_Func.NextStep(parameters("expected"))
             
         Case "backButton"
+            recHis ("frm006")
             frm007.Tilbage_Click
             result = Global_Test_Func.NextStep(parameters("expected"))
             
@@ -160,11 +162,19 @@ Private Function Testcase(tc As Integer)
         Case "noExtraPrints"
             Sheet1.recordChangingCells = True
             SetFields
-            If parameters("testParameter") = "noChangeWhenBackButton" Then
+            Select Case parameters("testParameter")
+            Case "noChangeWhenBackButton"
                 frm007.Tilbage_Click 'Click back button
-            Else
+            Case "noChangeWhenError"
                 frm007.OKButton_Click 'Click on Videre button
-            End If
+            Case "config1"
+                Call addSpm("9", "Altid")
+            Case "config2"
+                Call addSpm("9", "I visse tilfælde")
+            Case "config3"
+                Call addSpm("9", "Aldrig")
+            End Select
+            
             CheckNoExtraPrints
             Sheet1.recordChangingCells = False
             
@@ -206,15 +216,15 @@ Private Function DataIsSaved(sheet As String, cell As String)
    If parameters("expected") = True Then
         Select Case parameters("testParameter")
            Case "optionButton1"
-               ThisWorkbook.Sheets(sheet).Range(cell).Value = "Altid"
+               Call writeSpmSvar("9", "", "Altid", "", 6) 'ThisWorkbook.Sheets(sheet).Range(cell).Value = "Altid"
                ShowFunc (formName)
                result = CStr(frm007.OptionButton1.Value)
            Case "optionButton2"
-               ThisWorkbook.Sheets(sheet).Range(cell).Value = "I visse tilfælde"
+               Call writeSpmSvar("9", "", "I visse tilfælde", "", 6) 'ThisWorkbook.Sheets(sheet).Range(cell).Value = "I visse tilfælde"
                ShowFunc (formName)
                result = CStr(frm007.OptionButton2.Value)
            Case "optionButton3"
-               ThisWorkbook.Sheets(sheet).Range(cell).Value = "Aldrig"
+               Call writeSpmSvar("9", "", "Aldrig", "", 6) 'ThisWorkbook.Sheets(sheet).Range(cell).Value = "Aldrig"
                ShowFunc (formName)
                result = CStr(frm007.OptionButton3.Value)
         End Select

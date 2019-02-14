@@ -1,20 +1,18 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frm024 
    Caption         =   "Frasortering"
-   ClientHeight    =   6048
-   ClientLeft      =   84
-   ClientTop       =   372
-   ClientWidth     =   9024.001
+   ClientHeight    =   6936
+   ClientLeft      =   60
+   ClientTop       =   276
+   ClientWidth     =   10980
    OleObjectBlob   =   "frm024.frx":0000
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   2  'CenterScreen
 End
 Attribute VB_Name = "frm024"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-
-
 Public Sub OKButton_Click()
 If OptionButton1.Value = False And OptionButton2.Value = False Then
     dFunc.msgError = "Vælg venligst et svar for at forsætte"
@@ -71,7 +69,7 @@ End Sub
 
 Private Sub UserForm_Initialize()
 
-Image1.PictureSizeMode = fmPictureSizeModeStretch
+Image1.PictureSizeMode = fmPictureSizeModeClip
 
 ' Indlæs tidligere svar 15
 If findPreviousAns(findTopSpm("F"), "15", 1) = "Ja" Then
@@ -92,5 +90,5 @@ End If
 'End If
 
 
-
+Call drawProgressBar(Me, Me.Name)
 End Sub

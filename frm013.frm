@@ -1,12 +1,12 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frm013 
    Caption         =   "Forældelseskontrol"
-   ClientHeight    =   6048
-   ClientLeft      =   84
-   ClientTop       =   372
-   ClientWidth     =   9024.001
+   ClientHeight    =   6936
+   ClientLeft      =   36
+   ClientTop       =   84
+   ClientWidth     =   10980
    OleObjectBlob   =   "frm013.frx":0000
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   2  'CenterScreen
 End
 Attribute VB_Name = "frm013"
 Attribute VB_GlobalNameSpace = False
@@ -128,13 +128,13 @@ Call goBack
     Worksheets("Regler").Range("G43:G47").Value = "NEJ"
     Worksheets("Population").Range("B16:B16").Value = "NEJ"
     Worksheets("Population").Range("B17:B17").Value = "NEJ"
-    Worksheets("SpmSvar").Range("D23:D23").Value = ""
+    'Worksheets("SpmSvar").Range("D23:D23").Value = ""
 End Sub
 
 Private Sub UserForm_Initialize()
 
 
-Image1.PictureSizeMode = fmPictureSizeModeStretch
+Image1.PictureSizeMode = fmPictureSizeModeClip
 
 ' Indlæs tidligere svar 9b22
 If IsNumeric(findPreviousAns(findTopSpm("F"), "9.b.2.2", 1)) Then
@@ -147,5 +147,5 @@ ElseIf findPreviousAns(findTopSpm("F"), "9.b.2", 1) = "Ved ikke" Then
 End If
 
 
-
+Call drawProgressBar(Me, Me.Name)
 End Sub

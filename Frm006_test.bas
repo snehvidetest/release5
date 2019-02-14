@@ -4,7 +4,7 @@ Private formID As Integer
 Private formName As String
 Private parameters As Scripting.Dictionary
 Private parametersAndCols As Scripting.Dictionary
-Private spmCells As Scripting.Dictionary
+'Private spmCells As Scripting.Dictionary
 Private popCells As Scripting.Dictionary
 Private rulCells As Scripting.Dictionary
 Private groCells As Scripting.Dictionary
@@ -80,6 +80,7 @@ Private Function Testcase(tc As Integer)
             result = Global_Test_Func.NextStep(parameters("expected"))
             
         Case "backButton"
+            recHis ("frm005")
             frm006.Tilbage_Click
             result = Global_Test_Func.NextStep(parameters("expected"))
             
@@ -149,19 +150,19 @@ Private Function DataIsSaved(sheet As String)
                SFunc.ShowFunc (formName)
                result = CStr(frm006.OptionButton2.Value)
            Case "optionButton3"
-               ThisWorkbook.Sheets(sheet).Range("D15").Value = "Ja"
+               Call writeSpmSvar("7", "", "Ja", "", 6) 'ThisWorkbook.Sheets(sheet).Range("D15").Value = "Ja"
                SFunc.ShowFunc (formName)
                result = CStr(frm006.OptionButton3.Value)
             Case "optionButton4"
-               ThisWorkbook.Sheets(sheet).Range("D15").Value = "Nej"
+               Call writeSpmSvar("7", "", "Nej", "", 6) 'ThisWorkbook.Sheets(sheet).Range("D15").Value = "Nej"
                SFunc.ShowFunc (formName)
                result = CStr(frm006.OptionButton4.Value)
            Case "optionButton5"
-               ThisWorkbook.Sheets(sheet).Range("D16").Value = "Ja"
+               Call writeSpmSvar("8", "", "Ja", "", 6) 'ThisWorkbook.Sheets(sheet).Range("D16").Value = "Ja"
                SFunc.ShowFunc (formName)
                result = CStr(frm006.OptionButton5.Value)
            Case "optionButton6"
-               ThisWorkbook.Sheets(sheet).Range("D16").Value = "Nej"
+               Call writeSpmSvar("8", "", "Nej", "", 6) 'ThisWorkbook.Sheets(sheet).Range("D16").Value = "Nej"
                SFunc.ShowFunc (formName)
                result = CStr(frm006.OptionButton6.Value)
         End Select
@@ -232,12 +233,33 @@ Private Function CheckNoExtraPrints()
         Case "noChangeWhenError"
         Case "noChangeWhenBackButton"
         Case "config1"
+            Call addSpm("6", "Nej")
+            Call addSpm("7", "Nej")
+            Call addSpm("8", "Nej")
         Case "config2"
+            Call addSpm("6", "Ja")
+            Call addSpm("7", "Nej")
+            Call addSpm("8", "Nej")
         Case "config3"
+            Call addSpm("6", "Ja")
+            Call addSpm("7", "Ja")
+            Call addSpm("8", "Nej")
         Case "config4"
+            Call addSpm("6", "Ja")
+            Call addSpm("7", "Nej")
+            Call addSpm("8", "Ja")
         Case "config5"
+            Call addSpm("6", "Nej")
+            Call addSpm("7", "Ja")
+            Call addSpm("8", "Nej")
         Case "config6"
+            Call addSpm("6", "Nej")
+            Call addSpm("7", "Ja")
+            Call addSpm("8", "Ja")
         Case "config7"
+            Call addSpm("6", "Nej")
+            Call addSpm("7", "Nej")
+            Call addSpm("8", "Ja")
     End Select
     
     'returns a string which shows either true or has the input of the cells that changed that shouldn't have been changed

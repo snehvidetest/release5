@@ -1,12 +1,12 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frm021 
    Caption         =   "Forældelseskontrol"
-   ClientHeight    =   6048
-   ClientLeft      =   84
-   ClientTop       =   372
-   ClientWidth     =   9024.001
+   ClientHeight    =   6936
+   ClientLeft      =   72
+   ClientTop       =   288
+   ClientWidth     =   10980
    OleObjectBlob   =   "frm021.frx":0000
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   2  'CenterScreen
 End
 Attribute VB_Name = "frm021"
 Attribute VB_GlobalNameSpace = False
@@ -26,6 +26,10 @@ Else
     TextBox1.Enabled = True
     Label1.Enabled = True
     End If
+
+End Sub
+
+Private Sub Label2_Click()
 
 End Sub
 
@@ -107,7 +111,7 @@ End Sub
 
 Private Sub UserForm_Initialize()
 
-Image1.PictureSizeMode = fmPictureSizeModeStretch
+Image1.PictureSizeMode = fmPictureSizeModeClip
 
 ' Indlæs tidligere svar 12
 If findPreviousAns(findTopSpm("F"), "12", 1) = "Ved ikke" Then
@@ -126,5 +130,5 @@ End If
 'val2 = Worksheets("SpmSvar").Range("D55:D55").Value
 'val2 = onlyDigits(val2)
 'TextBox1.Value = val2
-
+Call drawProgressBar(Me, Me.Name)
 End Sub

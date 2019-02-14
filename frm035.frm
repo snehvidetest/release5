@@ -1,12 +1,12 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frm035 
    Caption         =   "Frasortering"
-   ClientHeight    =   6276
-   ClientLeft      =   84
-   ClientTop       =   372
-   ClientWidth     =   9060.001
+   ClientHeight    =   6936
+   ClientLeft      =   60
+   ClientTop       =   276
+   ClientWidth     =   10980
    OleObjectBlob   =   "frm035.frx":0000
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   2  'CenterScreen
 End
 Attribute VB_Name = "frm035"
 Attribute VB_GlobalNameSpace = False
@@ -15,6 +15,10 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
 
+
+Private Sub Image1_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
+
+End Sub
 
 Public Sub OKButton_Click()
        
@@ -150,14 +154,14 @@ Public Sub OKButton_Click()
     ' skal der komme en advarsel om, at dette ikke er "normalt".
     
     
+    Me.Hide
+    'store current form#
+    recHis ("frm035")
     If ComboBox2.Value = "efter" Or ComboBox4.Value = "efter" Then
        SFunc.ShowFunc ("frm045")
        GoTo ending
     End If
     
-    Me.Hide
-    'store current form#
-    recHis ("frm035")
     SFunc.ShowFunc ("frm036")
        
 ending:
@@ -233,7 +237,7 @@ Private Sub DrawChart()
     Fname = ThisWorkbook.Path & "\temp1.gif"
     With Me.Image2
         .Picture = LoadPicture(Fname)
-        .PictureSizeMode = fmPictureSizeModeZoom
+        .PictureSizeMode = fmPictureSizeModeClip
     End With
     Call DeleteFile
     
@@ -275,7 +279,7 @@ Private Sub ComboBox4_Change()
 End Sub
 Private Sub UserForm_Initialize()
     
-    Image1.PictureSizeMode = fmPictureSizeModeStretch
+    Image1.PictureSizeMode = fmPictureSizeModeClip
 
     a = "Stiftelsesdato"
     b = "Forfaldsdato"
@@ -327,5 +331,6 @@ Private Sub UserForm_Initialize()
         TextBox2.Value = Split(findPreviousAns(findTopSpm("F"), "11." & myLetter & "_3", 2))(1)
         ComboBox4.Value = Split(findPreviousAns(findTopSpm("F"), "11." & myLetter & "_3", 2))(3)
     End If
+Call drawProgressBar(Me, Me.Name)
 End Sub
 

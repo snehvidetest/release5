@@ -1,11 +1,11 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frm041 
-   ClientHeight    =   6240
-   ClientLeft      =   108
-   ClientTop       =   372
-   ClientWidth     =   9396.001
+   ClientHeight    =   6936
+   ClientLeft      =   60
+   ClientTop       =   288
+   ClientWidth     =   10980
    OleObjectBlob   =   "frm041.frx":0000
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   2  'CenterScreen
 End
 Attribute VB_Name = "frm041"
 Attribute VB_GlobalNameSpace = False
@@ -307,7 +307,7 @@ Private Sub UserForm_Click()
 End Sub
 
 Private Sub UserForm_Initialize()
-Image1.PictureSizeMode = fmPictureSizeModeStretch
+Image1.PictureSizeMode = fmPictureSizeModeClip
     
     With ComboBox1
         .AddItem ("Dage")
@@ -464,5 +464,5 @@ Image1.PictureSizeMode = fmPictureSizeModeStretch
         Label8.ForeColor = RGB(169, 169, 169)
     End If
 
-
+Call drawProgressBar(Me, Me.Name)
 End Sub

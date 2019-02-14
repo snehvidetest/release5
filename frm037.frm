@@ -1,12 +1,12 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frm037 
    Caption         =   "Frasortering"
-   ClientHeight    =   6276
-   ClientLeft      =   84
-   ClientTop       =   372
-   ClientWidth     =   9060.001
+   ClientHeight    =   6936
+   ClientLeft      =   132
+   ClientTop       =   432
+   ClientWidth     =   10980
    OleObjectBlob   =   "frm037.frx":0000
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   2  'CenterScreen
 End
 Attribute VB_Name = "frm037"
 Attribute VB_GlobalNameSpace = False
@@ -16,6 +16,14 @@ Attribute VB_Exposed = False
 
 
 
+
+Private Sub Image1_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
+
+End Sub
+
+Private Sub Label50_Click()
+
+End Sub
 
 Public Sub OKButton_Click()
        
@@ -153,14 +161,15 @@ Public Sub OKButton_Click()
     ' Hvis fordringshaver svarer, at "stiftelsesdato" kan ligge før "periode start"
     ' skal der komme en advarsel om, at dette ikke er "normalt".
         
+    Me.Hide
+    'store current form#
+    recHis ("frm037")
+    
     If ComboBox2.Value = "før" Or ComboBox4.Value = "før" Then
         SFunc.ShowFunc ("frm047")
         GoTo ending
     End If
      
-    Me.Hide
-    'store current form#
-    recHis ("frm037")
     SFunc.ShowFunc ("frm021")
     
 ending:
@@ -235,7 +244,7 @@ Private Sub DrawChart()
     Fname = ThisWorkbook.Path & "\temp1.gif"
     With Me.Image2
         .Picture = LoadPicture(Fname)
-        .PictureSizeMode = fmPictureSizeModeZoom
+        .PictureSizeMode = fmPictureSizeModeClip
     End With
     Call DeleteFile
     
@@ -278,7 +287,7 @@ Private Sub ComboBox4_Change()
 End Sub
 Private Sub UserForm_Initialize()
 
-    Image1.PictureSizeMode = fmPictureSizeModeStretch
+    Image1.PictureSizeMode = fmPictureSizeModeClip
 
 '    ' Activate sheet
 '    Worksheets("SpmSvar").Activate
@@ -325,5 +334,6 @@ Private Sub UserForm_Initialize()
         TextBox2.Value = Split(findPreviousAns(findTopSpm("F"), "11.a_1", 2))(1)
         ComboBox4.Value = Split(findPreviousAns(findTopSpm("F"), "11.a_1", 2))(3)
     End If
+Call drawProgressBar(Me, Me.Name)
 End Sub
 

@@ -1,11 +1,11 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frm042 
-   ClientHeight    =   6264
-   ClientLeft      =   96
-   ClientTop       =   384
-   ClientWidth     =   9000.001
+   ClientHeight    =   6936
+   ClientLeft      =   60
+   ClientTop       =   288
+   ClientWidth     =   10980
    OleObjectBlob   =   "frm042.frx":0000
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   2  'CenterScreen
 End
 Attribute VB_Name = "frm042"
 Attribute VB_GlobalNameSpace = False
@@ -289,7 +289,7 @@ Label12.ForeColor = RGB(0, 0, 0)
 End Sub
 
 Private Sub UserForm_Initialize()
-Image1.PictureSizeMode = fmPictureSizeModeStretch
+Image1.PictureSizeMode = fmPictureSizeModeClip
     
     
     With ComboBox1
@@ -462,6 +462,6 @@ Image1.PictureSizeMode = fmPictureSizeModeStretch
         ComboBox2.Value = "År"
     End If
 
-
+Call drawProgressBar(Me, Me.Name)
 End Sub
 

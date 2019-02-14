@@ -1,12 +1,12 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frm040 
    Caption         =   "Advarsel"
-   ClientHeight    =   2136
-   ClientLeft      =   96
-   ClientTop       =   384
-   ClientWidth     =   3648
+   ClientHeight    =   2316
+   ClientLeft      =   48
+   ClientTop       =   192
+   ClientWidth     =   5064
    OleObjectBlob   =   "frm040.frx":0000
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   2  'CenterScreen
 End
 Attribute VB_Name = "frm040"
 Attribute VB_GlobalNameSpace = False

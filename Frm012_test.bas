@@ -4,7 +4,7 @@ Private formID As Integer
 Private formName As String
 Private parameters As Scripting.Dictionary
 Private parametersAndCols As Scripting.Dictionary
-Private spmCells As Scripting.Dictionary
+'Private spmCells As Scripting.Dictionary
 Private popCells As Scripting.Dictionary
 Private rulCells As Scripting.Dictionary
 Private groCells As Scripting.Dictionary
@@ -87,6 +87,7 @@ Private Function Testcase(tc As Integer)
             result = Global_Test_Func.NextStep(parameters("expected"))
             
         Case "backButton"
+            recHis ("frm011")
             frm012.Tilbage_Click
             result = Global_Test_Func.NextStep(parameters("expected"))
             
@@ -124,7 +125,7 @@ End Function
 
 Private Function SetFields()
     
-    ThisWorkbook.Sheets("SpmSvar").Range("D24:H24").Value = "" 'Prevents crashing when frm010 initialises frm014
+    'ThisWorkbook.Sheets("SpmSvar").Range("D24:H24").Value = "" 'Prevents crashing when frm010 initialises frm014
     
     'The folowing code inserts the inputs into the actual form
     frm012.OptionButton1.Value = parameters("optionButton1")
@@ -136,8 +137,8 @@ Private Function CheckFields(sheet As String)
 
     'Check results
     If (sheet = "SpmSvar") Then
-        result = ThisWorkbook.Sheets(sheet).Range("D22").Text
-
+        'result = ThisWorkbook.Sheets(sheet).Range("D22").Text
+        result = findPreviousAns(findTopSpm("A"), "9.b.2", 1, 1)
     ElseIf (sheet = "Population") Then
         Select Case parameters("testParameter")
             Case "trustRIM"
@@ -160,9 +161,10 @@ Function DataIsSaved(sheet As String, cell As String)
         Case "optionButton1"
             
             If parameters("optionButton1") = "True" Then
-                ThisWorkbook.Sheets(sheet).Range(cell).Value = "Ja"
+                'ThisWorkbook.Sheets(sheet).Range(cell).Value = "Ja"
+                Call writeSpmSvar("9.b.2", "", "Ja", "", 6)
             ElseIf parameters("optionButton1") = "False" Then
-                ThisWorkbook.Sheets(sheet).Range(cell).Value = ""
+                'ThisWorkbook.Sheets(sheet).Range(cell).Value = ""
             End If
             
             ShowFunc (formName)
@@ -170,9 +172,10 @@ Function DataIsSaved(sheet As String, cell As String)
             
         Case "optionButton2"
             If parameters("optionButton2") = "True" Then
-                ThisWorkbook.Sheets(sheet).Range(cell).Value = "Nej"
+                'ThisWorkbook.Sheets(sheet).Range(cell).Value = "Nej"
+                Call writeSpmSvar("9.b.2", "", "Nej", "", 6)
             ElseIf parameters("optionButton2") = "False" Then
-                ThisWorkbook.Sheets(sheet).Range(cell).Value = ""
+                'ThisWorkbook.Sheets(sheet).Range(cell).Value = ""
             End If
             
             ShowFunc (formName)
@@ -191,11 +194,15 @@ Private Function CheckNoExtraPrints()
             popCells.Add "B16", ""
             
             groCells.Add "C3", "NEJ"
+            
+            Call addSpm("9.b.2", "")
         Case "config1"
             popCells.Add "B16", "JA"
             
             groCells.Add "C3", "JA"
+            Call addSpm("9.b.2", "Ja")
         Case "config2"
+            Call addSpm("9.b.2", "Nej")
     End Select
     'returns a string which shows either true or has the input of the cells that changed that shouldn't have been changed
     result = Global_Test_Func.CheckPrintsInAllSheets(spmCells, popCells, rulCells, groCells)

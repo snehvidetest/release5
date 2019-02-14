@@ -4,7 +4,7 @@ Private formID As Integer
 Private formName As String
 Private parameters As Scripting.Dictionary
 Private parametersAndCols As Scripting.Dictionary
-Private spmCells As Scripting.Dictionary
+'Private spmCells As Scripting.Dictionary
 Private popCells As Scripting.Dictionary
 Private rulCells As Scripting.Dictionary
 Private groCells As Scripting.Dictionary
@@ -65,7 +65,13 @@ Private Function Testcase(tc As Integer)
         Case "printsToSpmSheet"
             SetFields
             frm035.OKButton_Click 'Click on Videre button
-            CheckFields "SpmSvar"
+            'CheckFields "SpmSvar"
+            Select Case parameters("testParameter")
+                Case "textbox1"
+                    result = findPreviousAns(findTopSpm("A"), "11.a_3", 1, 1)
+                Case "textbox2"
+                    result = findPreviousAns(findTopSpm("A"), "11.a_3", 2, 1)
+            End Select
             
         Case "printsToRulSheet"
             SetFields
@@ -84,6 +90,7 @@ Private Function Testcase(tc As Integer)
             result = Global_Test_Func.NextStep(parameters("expected"))
             
         Case "backButton"
+            recHis ("frm039")
             frm035.Tilbage_Click
             result = Global_Test_Func.NextStep(parameters("expected"))
             
@@ -154,36 +161,40 @@ Function DataIsSaved(sheet As String)
     If parameters("expected") = True Then
         Select Case parameters("testParameter")
            Case "textbox1"
-               ThisWorkbook.Sheets(sheet).Range("D61").Value = "10"
+               'ThisWorkbook.Sheets(sheet).Range("D61").Value = "10"
+                Call writeSpmSvar("11.a_3", "", "fra 10 dage efter", "til 100 dage efter", 6)
                ShowFunc (formName)
                result = CStr(frm035.TextBox1.Value)
            Case "textbox2"
-               ThisWorkbook.Sheets(sheet).Range("G61").Value = "100"
+               'ThisWorkbook.Sheets(sheet).Range("G61").Value = "100"
+                Call writeSpmSvar("11.a_3", "", "fra 10 dage efter", "til 100 dage efter", 6)
                result = CStr(frm035.TextBox2.Value)
            Case "combobox2"
-               ThisWorkbook.Sheets(sheet).Range("F61").Value = "efter"
+               'ThisWorkbook.Sheets(sheet).Range("F61").Value = "efter"
+                Call writeSpmSvar("11.a_3", "", "fra 10 dage efter", "til 100 dage efter", 6)
                ShowFunc (formName)
                result = CStr(frm035.ComboBox2.Value)
-            Case "ombobox4"
-               ThisWorkbook.Sheets(sheet).Range("I61").Value = "efter"
+            Case "combobox4"
+               'ThisWorkbook.Sheets(sheet).Range("I61").Value = "efter"
+                Call writeSpmSvar("11.a_3", "", "fra 10 dage efter", "til 100 dage efter", 6)
                ShowFunc (formName)
                result = CStr(frm035.ComboBox4.Value)
         End Select
     Else
         Select Case parameters("testParameter")
            Case "textbox1"
-               ThisWorkbook.Sheets(sheet).Range("D61").Value = ""
+               'ThisWorkbook.Sheets(sheet).Range("D61").Value = ""
                ShowFunc (formName)
                result = CStr(frm035.TextBox1.Value)
            Case "textbox2"
-               ThisWorkbook.Sheets(sheet).Range("G61").Value = ""
+               'ThisWorkbook.Sheets(sheet).Range("G61").Value = ""
                result = CStr(frm035.TextBox2.Value)
            Case "combobox2"
-               ThisWorkbook.Sheets(sheet).Range("F61").Value = ""
+               'ThisWorkbook.Sheets(sheet).Range("F61").Value = ""
                ShowFunc (formName)
                result = CStr(frm035.ComboBox2.Value)
             Case "ombobox4"
-               ThisWorkbook.Sheets(sheet).Range("I61").Value = ""
+               'ThisWorkbook.Sheets(sheet).Range("I61").Value = ""
                ShowFunc (formName)
                result = CStr(frm035.ComboBox4.Value)
         End Select
@@ -200,10 +211,14 @@ Private Function CheckNoExtraPrints()
             rulCells.Add "G15", "JA"
             rulCells.Add "J15", parameters("textbox1")
             rulCells.Add "M15", parameters("textbox2")
+            
+            Call addSpm("11.a_3", parameters("textbox1"), parameters("textbox2"))
         Case "config2"
             rulCells.Add "G15", "JA"
             rulCells.Add "J15", parameters("textbox1")
             rulCells.Add "M15", parameters("textbox2")
+            
+            Call addSpm("11.a_3", parameters("textbox1"), parameters("textbox2"))
     End Select
     
     'returns a string which shows either true or has the input of the cells that changed that shouldn't have been changed

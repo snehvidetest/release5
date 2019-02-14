@@ -1,12 +1,12 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frm001 
    Caption         =   "Population"
-   ClientHeight    =   6048
-   ClientLeft      =   84
-   ClientTop       =   372
-   ClientWidth     =   8796.001
+   ClientHeight    =   6936
+   ClientLeft      =   36
+   ClientTop       =   180
+   ClientWidth     =   10980
    OleObjectBlob   =   "frm001.frx":0000
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   2  'CenterScreen
 End
 Attribute VB_Name = "frm001"
 Attribute VB_GlobalNameSpace = False
@@ -37,6 +37,10 @@ Public Sub CommandButton1_Click()
     End If
     'Call YesNoMessageBox
     
+End Sub
+
+Private Sub CommandButton2_Click()
+
 End Sub
 
 Private Sub Image1_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
@@ -72,14 +76,17 @@ Dim MyNote As String
  
 End Sub
 
+Private Sub Udvikler_Click()
+    UdviklerAdgang.Show
+End Sub
+
 Private Sub UserForm_Click()
 
 End Sub
 
 Private Sub UserForm_Initialize()
 
-    Image1.PictureSizeMode = fmPictureSizeModeStretch
+    Image1.PictureSizeMode = fmPictureSizeModeClip
     Worksheets("SpmSvar").Activate
-
 
 End Sub

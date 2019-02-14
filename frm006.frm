@@ -1,12 +1,12 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frm006 
    Caption         =   "Populationsafgrænsning"
-   ClientHeight    =   6048
-   ClientLeft      =   84
-   ClientTop       =   372
-   ClientWidth     =   9024.001
+   ClientHeight    =   6936
+   ClientLeft      =   36
+   ClientTop       =   180
+   ClientWidth     =   10980
    OleObjectBlob   =   "frm006.frx":0000
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   2  'CenterScreen
 End
 Attribute VB_Name = "frm006"
 Attribute VB_GlobalNameSpace = False
@@ -16,6 +16,10 @@ Attribute VB_Exposed = False
 
 
 
+
+Private Sub Image1_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
+
+End Sub
 
 Private Sub Label1_Click()
 
@@ -80,6 +84,10 @@ ending:
 End Sub
 
 
+Private Sub OptionButton3_Click()
+
+End Sub
+
 Public Sub Tilbage_Click()
     Me.Hide
     'go back to previously stored form#
@@ -90,7 +98,7 @@ End Sub
 
 Private Sub UserForm_Initialize()
 
-    Image1.PictureSizeMode = fmPictureSizeModeStretch
+    Image1.PictureSizeMode = fmPictureSizeModeClip
     ' Indlæs tidligere svar
     If findPreviousAns(findTopSpm("F"), "6", 1) = "Ja" Then
         OptionButton1.Value = True
@@ -110,4 +118,5 @@ Private Sub UserForm_Initialize()
         OptionButton6.Value = True
     End If
 
+Call drawProgressBar(Me, Me.Name)
 End Sub

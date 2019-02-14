@@ -1,12 +1,12 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frmMsg 
    Caption         =   "Besked"
-   ClientHeight    =   1944
-   ClientLeft      =   72
-   ClientTop       =   276
-   ClientWidth     =   3564
+   ClientHeight    =   2904
+   ClientLeft      =   24
+   ClientTop       =   108
+   ClientWidth     =   5460
    OleObjectBlob   =   "frmMsg.frx":0000
-   StartUpPosition =   1  'CenterOwner
+   StartUpPosition =   2  'CenterScreen
 End
 Attribute VB_Name = "frmMsg"
 Attribute VB_GlobalNameSpace = False

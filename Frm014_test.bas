@@ -4,12 +4,12 @@ Private formID As Integer
 Private formName As String
 Private parameters As Scripting.Dictionary
 Private parametersAndCols As Scripting.Dictionary
-Private spmCells As Scripting.Dictionary
+'Private spmCells As Scripting.Dictionary
 Private popCells As Scripting.Dictionary
 Private rulCells As Scripting.Dictionary
 Private groCells As Scripting.Dictionary
 Sub RunTests()
-    On Error GoTo Error_handler
+    'On Error GoTo Error_handler
     formName = "frm014"
     formID = 14
     
@@ -119,7 +119,7 @@ Private Function Testcase(tc As Integer)
             End Select
             
         Case "backButton"
-            
+            recHis ("frm013")
             frm014.Tilbage_Click
             result = Global_Test_Func.NextStep(parameters("expected"))
             
@@ -127,9 +127,10 @@ Private Function Testcase(tc As Integer)
             DataIsSaved "SpmSvar"
             
         Case "noExtraPrints"
-            Sheet1.recordChangingCells = True
             SetFields
+            Sheet1.recordChangingCells = True
             If parameters("testParameter") = "noChangeWhenBackButton" Then
+                recHis ("frm013")
                 frm014.Tilbage_Click 'Click back button
             Else
                 frm014.OKButton_Click 'Click on Videre button
@@ -157,15 +158,27 @@ End Function
 
 Private Function SetFields()
     
-    ThisWorkbook.Sheets("SpmSvar").Range("D24:H24").Value = "" 'Prevents crashing when frm010 initialises frm014
+    'ThisWorkbook.Sheets("SpmSvar").Range("D24:H24").Value = "" 'Prevents crashing when frm010 initialises frm014
     
     'The folowing code inserts the inputs into the actual form
-    frm014.Forfaldsdato.Value = parameters("forfaldsdato")
-    frm014.SRB.Value = parameters("srb")
-    frm014.Stiftelsesdato.Value = parameters("stiftelsesdato")
-    frm014.PeriodeStartdato.Value = parameters("periodeStartDato")
-    frm014.PeriodeSlutdato.Value = parameters("periodeSlutDato")
-    frm014.CheckBox2.Value = parameters("ingen")
+    If parameters("forfaldsdato") <> "" Then
+        frm014.Forfaldsdato.Value = CBool(parameters("forfaldsdato"))
+    End If
+    If parameters("srb") <> "" Then
+        frm014.SRB.Value = CBool(parameters("srb"))
+    End If
+    If parameters("stiftelsesdato") <> "" Then
+        frm014.Stiftelsesdato.Value = CBool(parameters("stiftelsesdato"))
+    End If
+    If parameters("periodeStartDato") <> "" Then
+        frm014.PeriodeStartdato.Value = CBool(parameters("periodeStartDato"))
+    End If
+    If parameters("periodeSlutDato") <> "" Then
+        frm014.PeriodeSlutdato.Value = CBool(parameters("periodeSlutDato"))
+    End If
+    If parameters("ingen") <> "" Then
+        frm014.CheckBox2.Value = CBool(parameters("ingen"))
+    End If
     
     'Insert necessary previous question answers
     Select Case parameters("spm9Svar")
@@ -218,17 +231,23 @@ Private Function CheckFields(sheet As String)
         Case "SpmSvar"
             Select Case parameters("testParameter")
                 Case "forfaldsdato"
-                    result = ThisWorkbook.Sheets(sheet).Range("D24").Text
+                    'result = ThisWorkbook.Sheets(sheet).Range("D24").Text
+                    result = findPreviousAns(findTopSpm("A"), "10_1", 0, 1)
                 Case "srb"
-                    result = ThisWorkbook.Sheets(sheet).Range("E24").Text
+                    'result = ThisWorkbook.Sheets(sheet).Range("E24").Text
+                    result = findPreviousAns(findTopSpm("A"), "10_2", 0, 1)
                 Case "stiftelsesdato"
-                    result = ThisWorkbook.Sheets(sheet).Range("F24").Text
+                    'result = ThisWorkbook.Sheets(sheet).Range("F24").Text
+                    result = findPreviousAns(findTopSpm("A"), "10_3", 0, 1)
                 Case "periodeStartDato"
-                    result = ThisWorkbook.Sheets(sheet).Range("G24").Text
+                    'result = ThisWorkbook.Sheets(sheet).Range("G24").Text
+                    result = findPreviousAns(findTopSpm("A"), "10_4", 0, 1)
                 Case "periodeSlutDato"
-                    result = ThisWorkbook.Sheets(sheet).Range("H24").Text
+                    'result = ThisWorkbook.Sheets(sheet).Range("H24").Text
+                    result = findPreviousAns(findTopSpm("A"), "10_5", 0, 1)
                 Case "ingen"
-                    result = ThisWorkbook.Sheets(sheet).Range("I24").Text
+                    'result = ThisWorkbook.Sheets(sheet).Range("I24").Text
+                    result = findPreviousAns(findTopSpm("A"), "10_6", 0, 1)
             End Select
             
         Case "Gruppering"
@@ -307,38 +326,62 @@ End Function
 
 Function DataIsSaved(sheet As String)
 
-    If parameters("forfaldsdato") <> "" Then
-        ThisWorkbook.Sheets(sheet).Range("D24").Value = "Forfaldsdato " & parameters("forfaldsdato")
-        ThisWorkbook.Sheets(sheet).Range("E24").Value = "SRB " & parameters("srb")
-        ThisWorkbook.Sheets(sheet).Range("F24").Value = "Stiftelsesdato " & parameters("stiftelsesdato")
-        ThisWorkbook.Sheets(sheet).Range("G24").Value = "PeriodeStart " & parameters("periodeStartDato")
-        ThisWorkbook.Sheets(sheet).Range("H24").Value = "PeriodeSlut " & parameters("periodeSlutDato")
-        ThisWorkbook.Sheets(sheet).Range("I24").Value = "Ingen " & parameters("ingen")
-    Else
-        ThisWorkbook.Sheets(sheet).Range("D24").Value = ""
-        ThisWorkbook.Sheets(sheet).Range("E24").Value = ""
-        ThisWorkbook.Sheets(sheet).Range("F24").Value = ""
-        ThisWorkbook.Sheets(sheet).Range("G24").Value = ""
-        ThisWorkbook.Sheets(sheet).Range("H24").Value = ""
-        ThisWorkbook.Sheets(sheet).Range("I24").Value = ""
-    End If
-    ShowFunc (formName)
+'    If parameters("forfaldsdato") = True Then
+'        ThisWorkbook.Sheets(sheet).Range("D24").Value = "Forfaldsdato " & parameters("forfaldsdato")
+'        ThisWorkbook.Sheets(sheet).Range("E24").Value = "SRB " & parameters("srb")
+'        ThisWorkbook.Sheets(sheet).Range("F24").Value = "Stiftelsesdato " & parameters("stiftelsesdato")
+'        ThisWorkbook.Sheets(sheet).Range("G24").Value = "PeriodeStart " & parameters("periodeStartDato")
+'        ThisWorkbook.Sheets(sheet).Range("H24").Value = "PeriodeSlut " & parameters("periodeSlutDato")
+'        ThisWorkbook.Sheets(sheet).Range("I24").Value = "Ingen " & parameters("ingen")
+'    Else
+'        ThisWorkbook.Sheets(sheet).Range("D24").Value = ""
+'        ThisWorkbook.Sheets(sheet).Range("E24").Value = ""
+'        ThisWorkbook.Sheets(sheet).Range("F24").Value = ""
+'        ThisWorkbook.Sheets(sheet).Range("G24").Value = ""
+'        ThisWorkbook.Sheets(sheet).Range("H24").Value = ""
+'        ThisWorkbook.Sheets(sheet).Range("I24").Value = ""
+'    End If
+'    ShowFunc (formName)
     
     Select Case parameters("testParameter")
             Case "forfaldsdato"
+                If parameters("forfaldsdato") = "True" Then
+                    Call writeSpmSvar("10_1", "Forfaldsdato", "Kan anvendes", "", 6)
+                End If
+                ShowFunc (formName)
                 result = CStr(frm014.Forfaldsdato.Value)
             Case "srb"
+                If parameters("srb") = "True" Then
+                    Call writeSpmSvar("10_2", "Sidste rettidige betalingsdato", "Kan anvendes", "", 6)
+                End If
+                ShowFunc (formName)
                 result = CStr(frm014.SRB.Value)
             Case "stiftelsesdato"
+                If parameters("stiftelsesdato") = "True" Then
+                    Call writeSpmSvar("10_3", "Stiftelsesdato", "Kan anvendes", "", 6)
+                End If
+                ShowFunc (formName)
                 result = CStr(frm014.Stiftelsesdato.Value)
             Case "periodeStartDato"
+                If parameters("periodeStartDato") = "True" Then
+                    Call writeSpmSvar("10_4", "PeriodeStartdato", "Kan anvendes", "", 6)
+                End If
+                ShowFunc (formName)
                 result = CStr(frm014.PeriodeStartdato.Value)
             Case "periodeSlutDato"
+                If parameters("periodeSlutDato") = "True" Then
+                    Call writeSpmSvar("10_5", "PeriodeSlutdato", "Kan anvendes", "", 6)
+                End If
+                ShowFunc (formName)
                 result = CStr(frm014.PeriodeSlutdato.Value)
             Case "ingen"
+                If parameters("ingen") = "True" Then
+                    Call writeSpmSvar("10_6", "Ingen", "Kan anvendes", "", 6)
+                End If
+                ShowFunc (formName)
                 result = CStr(frm014.CheckBox2.Value)
         End Select
-                        
+    
 End Function
 Private Function CheckNoExtraPrints()
     'Check Which configuration to choose
@@ -402,6 +445,9 @@ Private Function CheckNoExtraPrints()
             rulCells.Add "G67", "NEJ"
             rulCells.Add "G72", "NEJ"
             
+            Call addSpm("10", "")
+            Call addSpm("10_1", "Kan anvendes")
+            
         Case "config2"
 
 
@@ -430,6 +476,9 @@ Private Function CheckNoExtraPrints()
             rulCells.Add "G66", "JA"
             rulCells.Add "G67", "JA"
             rulCells.Add "G72", "JA"
+            
+            Call addSpm("10", "")
+            Call addSpm("10_2", "Kan anvendes")
         Case "config3"
 
             
@@ -459,6 +508,8 @@ Private Function CheckNoExtraPrints()
             rulCells.Add "G67", "NEJ"
             rulCells.Add "G72", "NEJ"
             
+            Call addSpm("10", "")
+            Call addSpm("10_3", "Kan anvendes")
         Case "config4"
         
             rulCells.Add "G48", "NEJ"
@@ -486,7 +537,9 @@ Private Function CheckNoExtraPrints()
             rulCells.Add "G66", "NEJ"
             rulCells.Add "G67", "NEJ"
             rulCells.Add "G72", "NEJ"
-
+            
+            Call addSpm("10", "")
+            Call addSpm("10_4", "Kan anvendes")
         Case "config5"
             rulCells.Add "G48", "NEJ"
             rulCells.Add "G49", "NEJ"
@@ -514,7 +567,8 @@ Private Function CheckNoExtraPrints()
             rulCells.Add "G67", "NEJ"
             rulCells.Add "G72", "NEJ"
 
-            
+            Call addSpm("10", "")
+            Call addSpm("10_5", "Kan anvendes")
         Case "config6"
         
             rulCells.Add "G48", "NEJ"
@@ -547,6 +601,9 @@ Private Function CheckNoExtraPrints()
             rulCells.Add "J43:J47", ""
             
             groCells.Add "C3", "NEJ"
+            
+            Call addSpm("10", "")
+            Call addSpm("10_6", "Kan anvendes")
     End Select
     'returns a string which shows either true or has the input of the cells that changed that shouldn't have been changed
     result = Global_Test_Func.CheckPrintsInAllSheets(spmCells, popCells, rulCells, groCells)

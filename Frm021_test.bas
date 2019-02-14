@@ -5,7 +5,7 @@ Private formName As String
 Private stopFormTest As Boolean
 Private parameters As Scripting.Dictionary
 Private parametersAndCols As Scripting.Dictionary
-Private spmCells As Scripting.Dictionary
+'Private spmCells As Scripting.Dictionary
 Private popCells As Scripting.Dictionary
 Private rulCells As Scripting.Dictionary
 Private groCells As Scripting.Dictionary
@@ -66,9 +66,11 @@ Private Function Testcase(tc As Integer)
             frm021.OKButton_Click 'Click on Videre button
             Select Case parameters("testParameter")
                 Case "textbox1"
-                    CheckFields "SpmSvar", "D55"
+                    'CheckFields "SpmSvar", "D55"
+                    result = findPreviousAns(findTopSpm("A"), "12", 1, 1)
                 Case "checkbox1"
-                    CheckFields "SpmSvar", "D55"
+                    'CheckFields "SpmSvar", "D55"
+                    result = findPreviousAns(findTopSpm("A"), "12", 1, 1)
             End Select
             
         Case "printsToRulSheet"
@@ -116,8 +118,10 @@ Private Function Testcase(tc As Integer)
             
         Case "backButton"
             If (parameters("testParameter") = "frm037") Then
+                recHis ("frm037")
                 frm039.CheckBox4.Value = True
             Else
+                recHis ("frm038")
                 frm039.CheckBox4.Value = False
             End If
             frm021.Tilbage_Click
@@ -166,21 +170,25 @@ Private Function DataIsSaved(sheet As String)
    If parameters("expected") = True Then
         Select Case parameters("testParameter")
            Case "textbox1"
-               ThisWorkbook.Sheets(sheet).Range("D55").Value = "10"
+               'ThisWorkbook.Sheets(sheet).Range("D55").Value = "10"
+               Call writeSpmSvar("12", "", "10", "", 6)
                ShowFunc (formName)
                result = CStr(frm021.TextBox1.Value)
            Case "checkbox1"
-               ThisWorkbook.Sheets(sheet).Range("D55").Value = "Ved ikke"
-               result = CStr(frm021.CheckBox1.Value)
+                'ThisWorkbook.Sheets(sheet).Range("D55").Value = "Ved ikke"
+                If parameters("checkbox1") Then
+                    Call writeSpmSvar("12", "", "Ved ikke", "", 6)
+                End If
+                result = CStr(frm021.CheckBox1.Value)
         End Select
     Else
         Select Case parameters("testParameter")
            Case "textbox1"
-               ThisWorkbook.Sheets(sheet).Range("D55").Value = ""
+               'ThisWorkbook.Sheets(sheet).Range("D55").Value = ""
                ShowFunc (formName)
                result = CStr(frm021.TextBox1.Value)
            Case "checkbox1"
-               ThisWorkbook.Sheets(sheet).Range("D55").Value = ""
+               'ThisWorkbook.Sheets(sheet).Range("D55").Value = ""
                result = CStr(frm021.CheckBox1.Value)
                Debug.Print (result)
                Debug.Print ("hej")
@@ -217,6 +225,8 @@ Private Function CheckNoExtraPrints()
             groCells.Add "C6", "JA"
             groCells.Add "C7", "NEJ"
             
+            Call addSpm("12", parameters("textbox1"), "kr.")
+            
         Case "config2"
             rulCells.Add "G73", "NEJ"
             rulCells.Add "G74", "NEJ"
@@ -227,6 +237,7 @@ Private Function CheckNoExtraPrints()
             
             groCells.Add "C6", "NEJ"
             groCells.Add "C7", "NEJ"
+            Call addSpm("12", "Ved ikke")
     End Select
     'returns a string which shows either true or has the input of the cells that changed that shouldn't have been changed
     result = Global_Test_Func.CheckPrintsInAllSheets(spmCells, popCells, rulCells, groCells)
